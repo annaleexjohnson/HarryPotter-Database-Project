@@ -32,6 +32,8 @@ app.get('/', function(req, res){
 
 
 // ******* Wizards Page *******
+
+//DISPLAY ALL WIZARD ROWS
 app.get("/wizards", function (req, res) {
 
   let query1 = "SELECT Wizards.wizard_id, Wizards.wizard_name, Wizards.wizard_graduated, Houses.house_name FROM Wizards, Houses WHERE Wizards.wizard_house = Houses.house_id GROUP BY Wizards.wizard_name;"
@@ -40,10 +42,7 @@ app.get("/wizards", function (req, res) {
 
   db.pool.query(query1, function (error, rows, fields) {
     // Execute the query
-
     let Wizards = rows;
-
-    console.log(Wizards);
 
     db.pool.query(query2, (error, rows, fields) => {
       let Houses = rows;
@@ -52,8 +51,8 @@ app.get("/wizards", function (req, res) {
   }); // an object where 'data' is equal to the 'rows' we
 }); // received back from the query
 
-// app.js - ROUTES section
 
+// ADD NEW WIZARD
 app.post("/add-wizard-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
   let data = req.body;
@@ -95,6 +94,41 @@ app.post("/add-wizard-ajax", function (req, res) {
     }
   });
 });
+
+// UPDATE WIZARD
+app.put('/put-wizard-ajax', function(req,res){                                   
+    let data = req.body;
+    let wizardID = data.wizard_id
+    let wizardGraduated = data.wizard_graduated
+    let wizardHouse = data.wizard_house
+    console.log("data values:", wizardID, wizardGraduated, wizardHouse)
+
+    queryUpdate = `UPDATE Wizards SET wizard_graduated = ${wizardGraduated}, wizard_house = ${wizardHouse} WHERE wizard_id = ${wizardID}`;
+
+    //first query
+    db.pool.query(queryUpdate, function(error, rows, fields){
+        // handle error
+        if (error) {
+            console.log(error)
+            res.sendStatus(400)
+        } else{
+            // second query
+            selectWizards = "SELECT * FROM Wizards"
+
+            db.pool.query(selectWizards, function(error, row, fields){
+                // handle error
+                if (error){
+                    console.log(error)
+                    res.sendStatus(400)
+                } else{
+                    res.send(rows)
+                }
+            })
+        }
+    })
+  
+})
+
 
 /*
     LISTENER
