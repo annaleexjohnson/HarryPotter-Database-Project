@@ -65,11 +65,11 @@
   <input type="text" name="input-wizard_name" id="input-wizard_name" />
 
   <label for="input-wizard_graduated">Graduated: </label>
-  <input
-    type="text"
-    name="input-wizard_graduated"
-    id="input-wizard_graduated"
-  />
+  <select name="input-wizard_graduated" id="input-wizard_graduated">
+    <option value="">--</option>
+    <option value="1">Yes</option>
+    <option value="2">No</option>   
+  </select>
 
   <label for="input-wizard_house">House: </label>
   {{! <input type="number" name="input-wizard_house" id="input-wizard_house"> }}
@@ -108,7 +108,7 @@
     </select>
     <label for="update-wizard-graduated">Wizard Graduated? </label>
     <select name="update-wizard-graduated" id="update-wizard-graduated" >
-        <optio value="">--</option>
+        <option value="">--</option>
         <option value="1">Yes</option>
         <option value="2">No</option>    
     </select>
