@@ -1,0 +1,48 @@
+<!-- spells.hbs -->
+<nav>
+    <ul>
+         <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="/wizards">Wizards</a>
+        </li>
+        <li>
+            <a href="/houses">Houses</a>
+        </li>
+        <li>
+            <a href="/spells">Spells</a>
+        </li>
+        <li>
+            <a href="/spell-instances">Spell Instances</a>
+        </li>
+       
+    </ul>
+</nav>
+
+<h1>Spells Information!</h1>
+<p>you can view and add new spells in this page!</p>
+
+<table id="spell-table">
+    {{!-- Add table headers based on data --}}
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+                <th>
+                {{@key}}
+                </th>
+            {{/each}}
+            <th>Delete</th>
+        </tr>
+    </thead>
+
+    {{!-- Table Body Section --}}
+    {{#each data}}
+    <tr>
+        <td>{{this.spell_id}}</td>
+        <td>{{this.spell_name}}</td>
+        <td>{{this.spell_description}}</td>
+        <td><button>Delete</button></td>
+    </tr>
+    {{/each}}
+</table>

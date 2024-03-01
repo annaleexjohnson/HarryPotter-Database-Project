@@ -49,8 +49,7 @@ app.get("/wizards", function (req, res) {
       return res.render("../views/wizards.hbs", { data: Wizards, Houses: Houses });
     });
   }); // an object where 'data' is equal to the 'rows' we
-}); // received back from the query
-
+}); 
 
 // DELETE WIZARD ROW
 app.delete('/delete-wizard-ajax/', function(req,res){                                                                
@@ -148,6 +147,24 @@ app.put('/put-wizard-ajax', function(req,res){
   
 })
 
+
+// ******* Spells Page *******
+app.get("/spells", function (req, res) {
+
+    let query1 = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+    FROM Spells S
+    JOIN Type_Of_Spells TS ON S.spell_id = TS.spell_id
+    JOIN Types T ON TS.type_id = T.type_id;`
+  
+  
+    db.pool.query(query1, function (error, rows, fields) {
+      // Execute the query
+      let Spells = rows;
+        
+      return res.render("../views/spells.hbs", { data: Spells });
+      
+    }); 
+  }); 
 
 /*
     LISTENER
