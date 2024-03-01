@@ -47,7 +47,7 @@ app.get("/wizards", function (req, res) {
 
     db.pool.query(query2, (error, rows, fields) => {
       let Houses = rows;
-      return res.render("index", { data: Wizards, Houses: Houses });
+      return res.render("../views/wizards.hbs", { data: Wizards, Houses: Houses });
     });
   }); // an object where 'data' is equal to the 'rows' we
 }); // received back from the query
