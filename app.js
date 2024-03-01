@@ -63,10 +63,12 @@ app.post("/add-wizard-ajax", function (req, res) {
     wizard_graduated = "NULL";
   }
 
-  let wizard_house = parseInt(data.wizard_house);
+  let wizard_house = data.wizard_house;
   if (isNaN(wizard_house)) {
     wizard_house = "NULL";
   }
+
+  console.log("wizard house:", wizard_house)
 
   // Create the query and run it on the database
   query1 = `INSERT INTO Wizards (wizard_name, wizard_graduated, wizard_house) VALUES ('${data.wizard_name}', ${wizard_graduated}, ${wizard_house})`;
@@ -78,7 +80,7 @@ app.post("/add-wizard-ajax", function (req, res) {
       res.sendStatus(400);
     } else {
       // If there was no error, perform a SELECT * on bsg_people
-      query2 = `SELECT * FROM Wizards;`;
+      query2 = `SELECT Wizards.wizard_id, Wizards.wizard_name, Wizards.wizard_graduated, Houses.house_name FROM Wizards, Houses WHERE Wizards.wizard_house = Houses.house_id GROUP BY Wizards.wizard_name;`;
       db.pool.query(query2, function (error, rows, fields) {
         // If there was an error on the second query, send a 400
         if (error) {

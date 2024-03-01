@@ -17,6 +17,8 @@ addPersonForm.addEventListener("submit", function (e) {
     let wizardGraduatedValue = inputWizardGraduated.value;
     let wizardHouseValue = inputWizardHouse.value;
 
+    console.log(wizardNameValue, wizardGraduatedValue, wizardHouseValue)
+
     // Put our data we want to send in a javascript object
     let data = {
         wizard_name: wizardNameValue,
@@ -76,7 +78,7 @@ addRowToTable = (data) => {
     idCell.innerText = newRow.wizard_id;
     nameCell.innerText = newRow.wizard_name;
     graduatedCell.innerText = newRow.wizard_graduated;
-    houseCell.innerText = newRow.wizard_house;
+    houseCell.innerText = newRow.house_name;
 
     // Add the cells to the row 
     row.appendChild(idCell);
