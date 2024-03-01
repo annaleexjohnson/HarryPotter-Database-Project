@@ -20,11 +20,18 @@ app.set("view engine", ".hbs"); // Tell express to use the handlebars engine whe
 // Database
 var db = require("./database/db-connector");
 
-/*s
+/*
     ROUTES
 */
 // app.js
 
+// ******* Home Page *******
+app.get('/', function(req, res){
+    return res.render("index")
+})
+
+
+// ******* Wizards Page *******
 app.get("/wizards", function (req, res) {
 
   let query1 = "SELECT Wizards.wizard_id, Wizards.wizard_name, Wizards.wizard_graduated, Houses.house_name FROM Wizards, Houses WHERE Wizards.wizard_house = Houses.house_id GROUP BY Wizards.wizard_name;"

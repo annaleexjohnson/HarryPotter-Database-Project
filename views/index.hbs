@@ -20,68 +20,14 @@
     </ul>
 </nav>
 
-<h1>Wizard Information!</h1>
-<p>you can view and add new wizards in this page!</p>
+<h1>Overview</h1>
+<p>In the enchanting world of Harry Potter, mastery of spells holds incredible importance. With the repertoire exceeding 200 spells which are classified into transfigurations, charms, jinxes, hexes, curses, counter spells, and healing spells, the challenge lies in being able to proficiently find the right one. In the Harry Potter books alone, there are 80 listed spells that a fan would have to sift through! Furthermore, if someone wanted to learn more about the spell performed in action, it would be difficult to find which witch/wizard used that spell before. 
+</p>
+<p>
+To address these complexities, we are developing a database capable of quickly retrieving and recording Hogwarts wizards and spells to avoid accidentally turning someone into a frog instead of levitating them! We’ve created a tool to track spells, along with the ability to record instances of when the spell was used, and which wizard(s) have used the spell. This addition of transactions will promote the learning experience of magic, providing a historical perspective on spell usage. 
+</p>
+<p>
+With the anticipation of numerous transactions, we imagine that it will have hundreds of wizard records, organizing and classifying over 200 distinct spells, and recording hundreds of instances to document spell usage. Additionally, the database will handle data for the four major Hogwarts houses.
+Our database will empower users to seamlessly look up wizards, providing comprehensive insights into their house, wand types, and graduation status. This feature enhances the learning experience of the users. 
+</p>
 
-{{! Create a table }}
-<table id="wizard-table">
-
-  {{! Header section }}
-  <thead>
-
-    {{! For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders }}
-    <tr>
-      {{#each data.[0]}}
-        <th>
-          {{@key}}
-        </th>
-      {{/each}}
-    </tr>
-  </thead>
-
-  {{! Body section }}
-  <tbody>
-
-    {{! For each row, print the id, fname, lname, homeworld and age, in order }}
-    {{#each data}}
-      <tr>
-        <td>{{this.wizard_id}}</td>
-        <td>{{this.wizard_name}}</td>
-        <td>{{this.wizard_graduated}}</td>        
-        <td>{{this.house_name}}</td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
-
-<!-- /views/index.hbs -->
-
-{{! Form to add a record to the table  }}
-<h2>Add a new wizard here</h2>
-<p>To add a new wizard, please enter their information below and click 'Submit'!</p>
-<form id="add-wizard-form-ajax">
-  <label for="input-wizard_name">Wizard Name: </label>
-  <input type="text" name="input-wizard_name" id="input-wizard_name" />
-
-  <label for="input-wizard_graduated">Graduated: </label>
-  <input
-    type="text"
-    name="input-wizard_graduated"
-    id="input-wizard_graduated"
-  />
-
-  <label for="input-wizard_house">House: </label>
-  {{! <input type="number" name="input-wizard_house" id="input-wizard_house"> }}
-  <select name="input-wizard_house" id="input-wizard_house">
-    <option value="">Select a House</option>
-    {{#each Houses}}
-      <option value="{{this.house_id}}">{{this.house_name}}</option>
-    {{/each}}
-  </select>
-
-  <input type="submit" />
-</form>
-
-{{! Embed our javascript to handle the DOM manipulation and AJAX request }}
-<script src="./js/add_wizard.js"></script>
