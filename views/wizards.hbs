@@ -37,6 +37,7 @@
           {{@key}}
         </th>
       {{/each}}
+      <th>Delete</th>
     </tr>
   </thead>
 
@@ -50,10 +51,13 @@
         <td>{{this.wizard_name}}</td>
         <td>{{this.wizard_graduated}}</td>        
         <td>{{this.house_name}}</td>
+        <td><button onclick="deleteWizard({{this.wizard_id}})">Delete</button></td>
       </tr>
     {{/each}}
   </tbody>
 </table>
+
+<script src="./js/delete_wizard.js"></script>
 
 <!-- /views/index.hbs -->
 
@@ -87,6 +91,7 @@
 <script src="./js/add_wizard.js"></script>
 
 
+{{!-- Form to update wizard based on name --}}
 <h2>Update Wizard Form</h2>
 <p>To update a specific wizard, select their name from the drop-down menu on the left and update their information</p>
 <form id="update-wizard-form-ajax">
@@ -116,5 +121,6 @@
 </form>
 
 <script src="./js/update_wizard.js"></script>
+
 
 

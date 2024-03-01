@@ -52,6 +52,23 @@ app.get("/wizards", function (req, res) {
 }); // received back from the query
 
 
+// DELETE WIZARD ROW
+app.delete('/delete-wizard-ajax/', function(req,res){                                                                
+    let data = req.body;
+    let wizardID = parseInt(data.wizard_id);
+    let deleteQuery= `DELETE FROM Wizards WHERE wizard_id = ${wizardID}`;
+  
+    // Run the  query
+    db.pool.query(deleteQuery, function(error, rows, fields){
+    // handle error
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204)
+        }
+  })});
+
 // ADD NEW WIZARD
 app.post("/add-wizard-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
