@@ -22,7 +22,7 @@
 
 <h1>Spells Information!</h1>
 <p>you can view and add new spells in this page!</p>
-
+{{!-- Display table with all spells --}}
 <table id="spell-table">
     {{!-- Add table headers based on data --}}
     <thead>
@@ -47,3 +47,25 @@
     </tr>
     {{/each}}
 </table>
+
+{{!-- Add Spell Form --}}
+<h2>Add a new spell here</h2>
+<p>To add a new spell, please enter the relevant information below and click 'Submit'!</p>
+<form id="add-spell-form-ajax">
+    {{!-- Add spell name --}}
+    <label for="input-spell-name">Spell Name: </label>
+    <input type="text" name="input-spell-name" id="input-spell-name" />
+    {{!-- Add spell desc --}}
+    <label for="input-spell-desc">Spell Name: </label>
+    <input type="text" name="input-spell-desc" id="input-spell-desc" />
+    {{!-- Add spell type --}}
+    <label for="input-spell-type">Spell Type: </label>
+    <select name="input-spell-type" id="input-spell-type">
+        <option value="">Select a type</option>
+        {{#each types}}
+        <option value="{{this.type_id}}">{{this.type_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit"/>
+</form>

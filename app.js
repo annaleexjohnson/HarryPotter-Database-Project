@@ -151,18 +151,22 @@ app.put('/put-wizard-ajax', function(req,res){
 // ******* Spells Page *******
 app.get("/spells", function (req, res) {
 
-    let query1 = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+    let selectSpells = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
     FROM Spells S
     JOIN Type_Of_Spells TS ON S.spell_id = TS.spell_id
     JOIN Types T ON TS.type_id = T.type_id;`
+    
+    let selectTypes = `SELECT type_name, type_description FROM Types;`
   
-  
-    db.pool.query(query1, function (error, rows, fields) {
-      // Execute the query
+    db.pool.query(selectSpells, function (error, rows, fields) {
+      // Execute first query
       let Spells = rows;
-        
-      return res.render("../views/spells.hbs", { data: Spells });
-      
+
+      db.pool.query(selectTypes, function (erorr, rows, fields){
+        let Types = rows;
+
+        return res.render("../views/spells.hbs", { data: Spells, types: Types});
+      })
     }); 
   }); 
 
