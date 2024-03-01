@@ -25,7 +25,7 @@ var db = require("./database/db-connector");
 */
 // app.js
 
-app.get("/", function (req, res) {
+app.get("/wizards", function (req, res) {
 
   let query1 = "SELECT Wizards.wizard_id, Wizards.wizard_name, Wizards.wizard_graduated, Houses.house_name FROM Wizards, Houses WHERE Wizards.wizard_house = Houses.house_id GROUP BY Wizards.wizard_name;"
 
