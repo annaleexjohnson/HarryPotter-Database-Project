@@ -1,0 +1,63 @@
+<!-- index.hbs -->
+<h1>Wizard Information!</h1>
+<p>you can view and add new wizards in this page!</p>
+
+{{!-- Create a table --}}
+<table id="wizard-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.wizard_id}}</td>
+            <td>{{this.wizard_name}}</td>
+            <td>{{this.wizard_graduated}}</td>
+            <td>{{this.wizard_house}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- /views/index.hbs -->
+
+{{!-- Form to add a record to the table  --}}
+<h2>Add a new wizard here</h2>
+<p>To add a new wizard, please enter their information below and click 'Submit'!</p>
+<form id="add-wizard-form-ajax">
+    <label for="input-wizard_name">Wizard Name: </label>
+    <input type="text" name="input-wizard_name" id="input-wizard_name">
+    
+    <label for="input-wizard_graduated">Graduated: </label>
+    <input type="text" name="input-wizard_graduated" id="input-wizard_graduated">
+
+    <label for="input-wizard_house">House: </label>
+    {{!-- <input type="number" name="input-wizard_house" id="input-wizard_house"> --}}
+    <select name="input-wizard_house" id="input-wizard_house">
+        <option value="">Select a House</option>
+        {{#each Houses}}
+        <option value="{{this.house_id}}">{{this.house_name}}</option>
+        {{/each}}
+    </select>
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_wizard.js"></script>
+
