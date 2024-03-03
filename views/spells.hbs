@@ -43,10 +43,13 @@
         <td>{{this.spell_name}}</td>
         <td>{{this.spell_description}}</td>
         <td>{{this.type_name}}</td>
-        <td><button>Delete</button></td>
+        <td><button onclick="deleteSpell({{this.spell_id}})">Delete</button></td>
     </tr>
     {{/each}}
 </table>
+
+<script src="./js/delete_spell.js"></script>
+
 
 {{!-- Add Spell Form --}}
 <h2>Add a new spell here</h2>

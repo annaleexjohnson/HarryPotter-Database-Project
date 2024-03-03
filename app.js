@@ -149,6 +149,7 @@ app.put('/put-wizard-ajax', function(req,res){
 
 
 // ******* Spells Page *******
+// GET ALL SPELLS
 app.get("/spells", function (req, res) {
 
     let selectSpells = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
@@ -171,7 +172,7 @@ app.get("/spells", function (req, res) {
     }); 
   }); 
 
-// add new spell
+// ADD NEW SPELL
 app.post("/add-spell-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
   let data = req.body;
@@ -218,6 +219,24 @@ app.post("/add-spell-ajax", function (req, res) {
   })
 
 });
+
+// DELETE SPELL ROW
+app.delete('/delete-spell-ajax/', function(req,res){                                                                
+  let data = req.body;
+  let spellID = parseInt(data.spell_id);
+  // deleting from spells will delete on cascade
+  let deleteQuery= `DELETE FROM Spells WHERE spell_id = ${spellID}`;
+
+  // Run the  query
+  db.pool.query(deleteQuery, function(error, rows, fields){
+  // handle error
+      if (error) {
+          console.log(error);
+          res.sendStatus(400);
+      } else {
+          res.sendStatus(204)
+      }
+})});
 
 /*
     LISTENER
