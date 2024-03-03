@@ -1,3 +1,4 @@
+
 // Get the objects we need to modify
 let addPersonForm = document.getElementById('add-wizard-form-ajax');
 
@@ -85,7 +86,7 @@ addRowToTable = (data) => {
     let deleteButton = document.createElement("INPUT")
     deleteButton.setAttribute("type", "submit")
     deleteButton.value = "Delete"
-    deleteButton.addEventListener("onclick", deleteWizard(newRow.wizard_id))
+    deleteButton.addEventListener("onclick", console.log("figure out how to add delete function here"))
     deleteCell.appendChild(deleteButton)
 
     // Add the cells to the row 
