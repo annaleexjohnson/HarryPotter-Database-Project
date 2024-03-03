@@ -73,6 +73,7 @@ addRowToTable = (data) => {
     let nameCell = document.createElement("TD");
     let graduatedCell = document.createElement("TD");
     let houseCell = document.createElement("TD");
+    let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
     idCell.innerText = newRow.wizard_id;
@@ -80,11 +81,19 @@ addRowToTable = (data) => {
     graduatedCell.innerText = newRow.wizard_graduated;
     houseCell.innerText = newRow.house_name;
 
+    // Create cell for delete button
+    let deleteButton = document.createElement("INPUT")
+    deleteButton.setAttribute("type", "submit")
+    deleteButton.value = "Delete"
+    deleteButton.addEventListener("onclick", deleteWizard(newRow.wizard_id))
+    deleteCell.appendChild(deleteButton)
+
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(nameCell);
     row.appendChild(graduatedCell);
     row.appendChild(houseCell);
+    row.appendChild(deleteCell)
     
     // Add the row to the table
     currentTable.appendChild(row);
