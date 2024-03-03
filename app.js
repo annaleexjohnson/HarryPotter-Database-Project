@@ -154,9 +154,10 @@ app.get("/spells", function (req, res) {
     let selectSpells = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
     FROM Spells S
     JOIN Type_Of_Spells TS ON S.spell_id = TS.spell_id
-    JOIN Types T ON TS.type_id = T.type_id;`
+    JOIN Types T ON TS.type_id = T.type_id
+    ORDER BY S.spell_id;`
     
-    let selectTypes = `SELECT type_name, type_description FROM Types;`
+    let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`
   
     db.pool.query(selectSpells, function (error, rows, fields) {
       // Execute first query
@@ -169,6 +170,54 @@ app.get("/spells", function (req, res) {
       })
     }); 
   }); 
+
+// add new spell
+app.post("/add-spell-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
+  let spellName = data.spell_name
+  let spellDesc = data.spell_desc
+  let spellType = parseInt(data.spell_type)
+
+  // Create the query and run it on the database
+  insertSpell = `INSERT INTO Spells (spell_name, spell_description) VALUES ('${spellName}', '${spellDesc}');`
+  insertTypeOfSpell = `INSERT INTO Type_Of_Spells (spell_id, type_id) VALUES
+  (
+      (SELECT spell_id FROM Spells WHERE spell_name = '${spellName}'),
+      ${spellType}
+  );`
+  selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+  FROM Spells S
+  JOIN Type_Of_Spells TS ON S.spell_id = TS.spell_id
+  JOIN Types T ON TS.type_id = T.type_id
+  ORDER BY S.spell_id;`
+
+  // add to spells table
+  db.pool.query(insertSpell, function(err, rows){
+      if (err){
+          console.log('error adding spell')
+          return res.sendStatus(400)
+      } else{
+          // add to type of spells table
+          db.pool.query(insertTypeOfSpell, function(err, rows){
+              if (err){
+                  console.log('error adding to tos')
+                  return res.sendStatus(400)
+              } else {
+                  // select all spells from table and return rows
+                  db.pool.query(selectSpell, function(err, rows){
+                    if (err){
+                      return res.sendStatus(400)
+                    } else{
+                      return res.send(rows)
+                    }
+                  })
+              }
+          })
+      }
+  })
+
+});
 
 /*
     LISTENER
