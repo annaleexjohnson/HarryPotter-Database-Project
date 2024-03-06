@@ -43,12 +43,19 @@
         <td>{{this.spell_name}}</td>
         <td>{{this.spell_description}}</td>
         <td>{{this.type_name}}</td>
+        <td>
+            <a href="updateSpell/{{this.spell_id}}">
+                <button>Edit</button>
+            </a>
+        </td>
         <td><button onclick="deleteSpell({{this.spell_id}})">Delete</button></td>
     </tr>
     {{/each}}
 </table>
 
+<script src="/js/update_spell.js"></script>
 <script src="./js/delete_spell.js"></script>
+
 
 
 {{!-- Add Spell Form --}}
@@ -75,3 +82,4 @@
 
 {{! Embed our javascript to handle the DOM manipulation and AJAX request }}
 <script src="./js/add_spell.js"></script>
+

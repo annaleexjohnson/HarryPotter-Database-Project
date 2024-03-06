@@ -1,0 +1,100 @@
+// get update Spell Form
+let updateSpellForm = document.getElementById('update-spell-form-ajax');
+
+updateSpellForm.addEventListener("submit", function (e) {
+   // prevent default behavior
+    e.preventDefault()
+
+    //get form values
+    let spellID = document.getElementById("update-spell-id").innerText // returns string  
+    let spellName = document.getElementById("update-spell-name")
+    let spellDesc = document.getElementById("update-spell-desc")
+    let spellType = document.getElementById("update-spell-type")
+    let initialSpellType = document.getElementById("initial-spell-type")
+
+    // Get the values from the form fields
+    let spellNameValue = spellName.value;           // returns string                        
+    let spellDescValue = spellDesc.value;           // returns string          
+    let spellTypeValue = spellType.value;           // returns type ID (string) 
+    let initialTypeValue = initialSpellType.value   // returns initial type ID (string)
+
+    // handles invalid input
+    if(spellNameValue === ""){
+        return
+    }
+
+    // set type value to null if applicable
+    if (spellTypeValue === ""){
+        spellTypeValue = NULL
+    }
+
+     // Put our data we want to send in a javascript object
+    let data = {
+        spell_id: spellID,
+        spell_name: spellNameValue,
+        spell_desc: spellDescValue,
+        spell_type: spellTypeValue,
+        initial_type: initialTypeValue
+    }
+
+     // Setup our AJAX request
+     var xhttp = new XMLHttpRequest();
+     xhttp.open("PUT", "/put-spell-ajax", true);
+     xhttp.setRequestHeader("Content-type", "application/json");
+ 
+     // Tell our AJAX request how to resolve
+     xhttp.onreadystatechange = () => {
+         if (xhttp.readyState == 4 && xhttp.status == 200) {
+ 
+             // Add the new data to the table
+            //  updateRow(xhttp.response, spellID);
+ 
+             // Clear the input fields for another transaction
+             spellID.value = '';
+             spellName.value = '';
+             spellDesc.value = '';
+             spellType.value = '';
+             initialSpellType.value= '';
+
+             window.location.href = "/spells"
+
+         }
+         else if (xhttp.readyState == 4 && xhttp.status != 200) {
+             console.log("There was an error with the update.")
+         }
+     }
+ 
+     // Send the request and wait for the response
+     xhttp.send(JSON.stringify(data));
+})
+
+
+function updateRow(data, spellID){
+    let parsedData = JSON.parse(data);
+    console.log("parsed data:", parsedData)
+    
+    let table = document.getElementById("spell-table");
+    console.log(table.rows.length)
+
+    for (let i = 0, row; row = table.rows[i]; i++) {
+       //iterate through rows
+       //rows would be accessed using the "row" variable assigned in the for loop
+       if (table.rows[i].getAttribute("data-value") == spellID) {
+
+            // Get the location of the row where we found the matching person ID
+            let updateRowIndex = table.getElementsByTagName("tr")[i];
+
+            // Get td of name value
+            let updateNameCell = updateRowIndex.getElementsByTagName("td")[1];
+            // Get td of description value
+            let updateDescCell = updateRowIndex.getElementsByTagName("td")[2];
+            // Get td of type value
+            let updateTypeCell = updateRowIndex.getElementsByTagName("td")[3];
+
+            // Reassign spell row data
+            updateNameCell.innerHTML = parsedData[0].spell_name; 
+            updateDescCell.innerHTML = parsedData[0].spell_desc;
+            updateTypeCell.innerHTML = parsedData[0].type_name; 
+       }
+    }
+}

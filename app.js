@@ -14,7 +14,12 @@ PORT = 45013; // Set a port number at the top so it's easy to change in the futu
 
 const { engine } = require("express-handlebars");
 var exphbs = require("express-handlebars"); // Import express-handlebars
-app.engine(".hbs", engine({ extname: ".hbs" })); // Create an instance of the handlebars engine to process templates
+
+app.engine(".hbs", engine({ 
+  extname: ".hbs", 
+  helpers: {eq: (a, b) => a === b,},  //equality helper block function
+})); 
+
 app.set("view engine", ".hbs"); // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
 
 // Database
@@ -166,7 +171,6 @@ app.get("/spells", function (req, res) {
 
       db.pool.query(selectTypes, function (erorr, rows, fields){
         let Types = rows;
-
         return res.render("../views/spells.hbs", { data: Spells, types: Types});
       })
     }); 
@@ -237,6 +241,82 @@ app.delete('/delete-spell-ajax/', function(req,res){
           res.sendStatus(204)
       }
 })});
+
+// RENDER UPDATE SPELL PAGE
+app.get("/updateSpell/:spellID", function (req, res) {
+  let spellID = parseInt(req.params.spellID)
+
+  console.log(typeof spellID)
+
+  let selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+  FROM Spells S
+  JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
+  JOIN Types T ON TS.type_id = T.type_id
+  WHERE TS.spell_id = ${spellID};`
+
+  let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`
+
+  db.pool.query(selectSpell, function(err, rows, fields){
+      let Spell = rows[0]
+      console.log(Spell)
+      db.pool.query(selectTypes, function(err, rows, fields){
+          let Types = rows
+          console.log(Spell)
+          return res.render("../views/updateSpell.hbs", { spell: Spell, types: Types });
+      })
+    
+  })
+}); 
+
+// UPDATE SPELL ROW
+app.put('/put-spell-ajax', function(req,res){                                   
+  let data = req.body;
+  let spellID = parseInt(data.spell_id)
+  let spellName = data.spell_name
+  let spellDesc = data.spell_desc
+  let spellType = parseInt(data.spell_type)
+  let initialType = data.initial_type
+
+  // updates name and description in Spells table
+  let updateSpell = `UPDATE Spells SET 
+    spell_name = '${spellName}', 
+    spell_description = '${spellDesc}' 
+    WHERE spell_id = ${spellID}`
+
+  // updates type of spell in TOS  table (null values allowed)
+  let updateTOS = `UPDATE Type_Of_Spells SET 
+      type_id = (SELECT type_id FROM Types WHERE type_id = ${spellType}),
+      spell_id = (SELECT spell_id FROM Spells WHERE spell_id = ${spellID})
+      WHERE 
+      spell_id = (SELECT spell_id FROM Spells WHERE spell_id = ${spellID}) 
+      AND 
+      type_id = (SELECT type_id FROM Types WHERE type_id = ${initialType});`
+
+  // update spells table
+  db.pool.query(updateSpell, function(error, rows, fields){
+      // handle error
+      // console.log("update spells query:", updateSpell)
+      if (error) {
+          console.log(error)
+          res.sendStatus(400)
+      } else{
+          // update TOS table
+          db.pool.query(updateTOS, function(error, row, fields){
+              // console.log("update tos query:", updateTOS)
+              // handle error
+              if (error){
+                  console.log(error)
+                  res.sendStatus(400)
+              } else{
+                  res.sendStatus(200)
+              }
+          })
+      }
+  })
+
+})
+
+
 
 /*
     LISTENER
