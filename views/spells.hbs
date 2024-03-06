@@ -48,7 +48,7 @@
                 <button>Edit</button>
             </a>
         </td>
-        <td><button onclick="deleteSpell({{this.spell_id}})">Delete</button></td>
+        <td><button onclick="deleteSpell( {{this.spell_id}}, '{{this.type_name}}')">Delete</button></td>
     </tr>
     {{/each}}
 </table>

@@ -1,52 +1,39 @@
-function deleteSpell(spellID) {
-    // Put our data we want to send in a javascript object
-    let data = {
-        spell_id: spellID
-    };
-    
-    // Setup our AJAX request
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("DELETE", "/delete-spell-ajax", true);
-    xhttp.setRequestHeader("Content-type", "application/json");
+function deleteSpell(spellID, typeName) {
+  // Put our data we want to send in a javascript object
+  let data = {
+    spell_id: spellID,
+    type_name: typeName,
+  };
 
-    // Tell our AJAX request how to resolve
-    xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 204) {
+  console.log(data);
 
-            // Add the new data to the table
-            deleteRow(spellID);
-        }
-        else if (xhttp.readyState == 4 && xhttp.status != 204) {
-            console.log("There was an error with the input.")
-        }
+  // Setup our AJAX request
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("DELETE", "/delete-spell-ajax", true);
+  xhttp.setRequestHeader("Content-type", "application/json");
+
+  // Tell our AJAX request how to resolve
+  xhttp.onreadystatechange = () => {
+    if (xhttp.readyState == 4 && xhttp.status == 204) {
+      // Add the new data to the table
+      deleteRow(spellID);
+      window.location.href = "/spells";
+    } else if (xhttp.readyState == 4 && xhttp.status != 204) {
+      console.log("There was an error with the input.");
     }
-    // Send the request and wait for the response
-    xhttp.send(JSON.stringify(data));
+  };
+  // Send the request and wait for the response
+  xhttp.send(JSON.stringify(data));
 }
 
-function deleteRow(spellID){
-
-    let table = document.getElementById("spell-table");
-    for (let i = 0, row; row = table.rows[i]; i++) {
-       //iterate through rows
-       //rows would be accessed using the "row" variable assigned in the for loop
-       if (table.rows[i].getAttribute("data-value") == spellID) {
-            table.deleteRow(i);
-            deleteDropDownMenu(spellID);
-            break;
-       }
-    }
-}
-
-// remove spell from update spell form option
-function deleteDropDownMenu(spellID){
-    let selectMenu = document.getElementById("update-spell-name");
-    for (let i = 0; i < selectMenu.length; i++){
-      if (Number(selectMenu.options[i].value) === Number(personID)){
-        selectMenu[i].remove();
-        break;
-      } 
-  
+function deleteRow(spellID) {
+  let table = document.getElementById("spell-table");
+  for (let i = 0, row; (row = table.rows[i]); i++) {
+    //iterate through rows
+    //rows would be accessed using the "row" variable assigned in the for loop
+    if (table.rows[i].getAttribute("data-value") == spellID) {
+      table.rows[i].remove();
+      break;
     }
   }
-
+}
