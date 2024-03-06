@@ -79,7 +79,15 @@ addRowToTable = (data) => {
     nameCell.innerText = newRow.spell_name;
     descCell.innerText = newRow.spell_description;
     typeCell.innerText = newRow.type_name;
+    let editCell = document.createElement("TD");
     let deleteCell = document.createElement("TD");
+
+    // Create cell for edit button
+    let editLink = document.createElement("a")
+    editLink.href = `updateSpell/${newRow.spell_id}`
+    let editButton = document.createElement("button")
+    editButton.innerText = "Edit"
+    editLink.appendChild(editButton)
 
     // Create cell for delete button
     let deleteButton = document.createElement("INPUT")
@@ -95,7 +103,8 @@ addRowToTable = (data) => {
     row.appendChild(nameCell);
     row.appendChild(descCell);
     row.appendChild(typeCell);
-    row.appendChild(deleteCell)
+    row.appendChild(editLink);
+    row.appendChild(deleteCell);
     
     // Add the row to the table
     currentTable.appendChild(row);
