@@ -160,11 +160,11 @@ app.put("/put-wizard-ajax", function (req, res) {
 // ******* Spells Page *******
 // GET ALL SPELLS
 app.get("/spells", function (req, res) {
-  let selectSpells = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+  let selectSpells = `SELECT S.spell_id, S.spell_name, T.type_name, S.spell_description
     FROM Spells S
     JOIN Type_Of_Spells TS ON S.spell_id = TS.spell_id
     JOIN Types T ON TS.type_id = T.type_id
-    ORDER BY S.spell_id;`;
+    ORDER BY S.spell_name ASC`;
 
   let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
 
