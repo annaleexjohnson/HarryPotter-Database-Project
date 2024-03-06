@@ -32,15 +32,24 @@
                 {{@key}}
                 </th>
             {{/each}}
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
 
     {{!-- Table Body Section --}}
     {{#each instances}}
     <tr>
+        <td>{{this.instance_id}}</td>
         <td>{{this.spell_name}}</td>
         <td>{{this.wizard_name}}</td>
         <td>{{this.notes}}</td>
+        <td>
+            <a href="updateInstance/{{this.instance_id}}">
+                <button>Edit</button>
+            </a>
+        </td>
+        <td><button>Delete</button></td>
     </tr>
     {{/each}}
 </table>
