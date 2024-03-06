@@ -364,7 +364,17 @@ app.put("/put-spell-ajax", function (req, res) {
 
 // GET ALL SPELLS
 app.get("/instances", function (req, res) {
-  return res.render("instances");
+  selectInstance = `SELECT S.spell_name, W.wizard_name, SI.notes
+  FROM Spell_Instances SI
+  JOIN Spells S ON SI.spell_id = S.spell_id
+  JOIN Wizards W ON SI.wizard_id = W.wizard_id;`;
+
+  db.pool.query(selectInstance, function (err, rows) {
+    console.log(rows);
+    return res.render("../views/instances.hbs", {
+      instances: rows,
+    });
+  });
 });
 
 /*

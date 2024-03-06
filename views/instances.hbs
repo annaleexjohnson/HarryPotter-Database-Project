@@ -19,3 +19,28 @@
        
     </ul>
 </nav>
+
+<h1>Spells Instances!</h1>
+<p>you can view wizards who have used each spell in this page!</p>
+{{!-- Display table with all spells --}}
+<table id="spell-table">
+    {{!-- Add table headers based on data --}}
+    <thead>
+        <tr>
+            {{#each instances.[0]}}
+                <th>
+                {{@key}}
+                </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Table Body Section --}}
+    {{#each instances}}
+    <tr>
+        <td>{{this.spell_name}}</td>
+        <td>{{this.wizard_name}}</td>
+        <td>{{this.notes}}</td>
+    </tr>
+    {{/each}}
+</table>
