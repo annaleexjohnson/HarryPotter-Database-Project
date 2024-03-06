@@ -364,7 +364,7 @@ app.put("/put-spell-ajax", function (req, res) {
 
 // GET ALL SPELLS
 app.get("/instances", function (req, res) {
-  selectInstance = `SELECT S.spell_name, W.wizard_name, SI.notes
+  selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
   FROM Spell_Instances SI
   JOIN Spells S ON SI.spell_id = S.spell_id
   JOIN Wizards W ON SI.wizard_id = W.wizard_id;`;
