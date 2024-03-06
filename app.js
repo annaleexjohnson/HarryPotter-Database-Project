@@ -29,16 +29,24 @@ app.set("view engine", ".hbs"); // Tell express to use the handlebars engine whe
 var db = require("./database/db-connector");
 
 /*
-    ROUTES
+   ROUTES
 */
 // app.js
 
-// ******* Home Page *******
+/* 
+*******************************
+  HOME PAGE
+*******************************
+*/
 app.get("/", function (req, res) {
   return res.render("index");
 });
 
-// ******* Wizards Page *******
+/* 
+*******************************
+  WIZARDS PAGE
+*******************************
+*/
 
 //DISPLAY ALL WIZARD ROWS
 app.get("/wizards", function (req, res) {
@@ -157,7 +165,12 @@ app.put("/put-wizard-ajax", function (req, res) {
   });
 });
 
-// ******* Spells Page *******
+/* 
+*******************************
+  SPELLS PAGE
+*******************************
+*/
+
 // GET ALL SPELLS
 app.get("/spells", function (req, res) {
   let selectSpells = `SELECT S.spell_id, S.spell_name, T.type_name, S.spell_description
@@ -341,6 +354,17 @@ app.put("/put-spell-ajax", function (req, res) {
       });
     }
   });
+});
+
+/* 
+*******************************
+  SPELL INSTANCES PAGE
+*******************************
+*/
+
+// GET ALL SPELLS
+app.get("/instances", function (req, res) {
+  return res.render("instances");
 });
 
 /*
