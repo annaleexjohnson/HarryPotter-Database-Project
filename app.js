@@ -375,7 +375,6 @@ app.get("/instances", function (req, res) {
   });
 });
 
-
 /*
 *********************************
 HOUSES PAGE
@@ -384,53 +383,45 @@ HOUSES PAGE
 
 // get all houses
 // ********* Houses Page ************
-app.get('/add_house-ajax/', function(req, res)
-{  
-        let query1 = "SELECT * FROM Houses;";               // Define our query
+app.get("/houses", function (req, res) {
+  let query1 = "SELECT * FROM Houses;"; // Define our query
 
-        db.pool.query(query1, function(error, rows, fields){    // Execute the query
+  db.pool.query(query1, function (error, rows, fields) {
+    // Execute the query
 
-            res.render('houses', {data: rows});                  // Render the index.hbs file, and also send the renderer
-        })                                                      // an object where 'data' is equal to the 'rows' we
-});  
+    res.render("../views/houses.hbs", { data: rows }); // Render the index.hbs file, and also send the renderer
+  }); // an object where 'data' is equal to the 'rows' we
+});
 
-app.post('/add-house-ajax', function(req, res) 
-{
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
+app.post("/add-house-ajax", function (req, res) {
+  // Capture the incoming data and parse it back to a JS object
+  let data = req.body;
 
-    // Create the query and run it on the database
-    query1 = `INSERT INTO Houses (house_name, house_founder) VALUES ('${data.house_name}', '${data.house_founder}')`;
-    db.pool.query(query1, function(error, rows, fields){
-
-        // Check to see if there was an error
+  // Create the query and run it on the database
+  query1 = `INSERT INTO Houses (house_name, house_founder) VALUES ('${data.house_name}', '${data.house_founder}')`;
+  db.pool.query(query1, function (error, rows, fields) {
+    // Check to see if there was an error
+    if (error) {
+      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // If there was no error, perform a SELECT * on bsg_people
+      query2 = `SELECT * FROM Houses;`;
+      db.pool.query(query2, function (error, rows, fields) {
+        // If there was an error on the second query, send a 400
         if (error) {
-
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
+          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+          console.log(error);
+          res.sendStatus(400);
         }
-        else
-        {
-            // If there was no error, perform a SELECT * on bsg_people
-            query2 = `SELECT * FROM Houses;`;
-            db.pool.query(query2, function(error, rows, fields){
-
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else
-                {
-                    res.send(rows);
-                }
-            })
+        // If all went well, send the results of the query back.
+        else {
+          res.send(rows);
         }
-    })
+      });
+    }
+  });
 });
 
 /*
