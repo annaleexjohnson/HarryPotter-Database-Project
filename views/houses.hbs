@@ -1,0 +1,70 @@
+<!-- houses.hbs -->
+<nav>
+    <ul>
+         <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="/wizards">Wizards</a>
+        </li>
+        <li>
+            <a href="/houses">Houses</a>
+        </li>
+        <li>
+            <a href="/spells">Spells</a>
+        </li>
+        <li>
+            <a href="/spell-instances">Spell Instances</a>
+        </li>
+       
+    </ul>
+</nav>
+
+{{!-- Create a table --}}
+<table id="house-table">
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.house_id}}</td>
+            <td>{{this.house_name}}</td>
+            <td>{{this.house_founder}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{!-- Form to add a record to the table  --}}
+<h2>Adding Data with AJAX</h2>
+<p>To add a new house, please enter their information below and click 'Submit'!</p>
+<form id="add-house-form-ajax">
+    <label for="input-house_name">House Name: </label>
+    <input type="text" name="input-house_name" id="input-house_name">
+    
+    <label for="input-house_founder">House Founder: </label>
+    <input type="text" name="input-house_founder" id="input-house_founder">
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_house.js"></script>
+
+
