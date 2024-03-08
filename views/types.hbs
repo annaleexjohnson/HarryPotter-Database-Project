@@ -53,3 +53,19 @@
         {{/each}}
     </tbody>
 </table>
+
+{{! Form to add a record to the table  }}
+<h2>Add a new spell type here</h2>
+<p>To add a new type, please enter their information below and click 'Submit'!</p>
+<form id="add-type-form-ajax">
+  <label for="input-type-name">Type Name: </label>
+  <input type="text" name="input-type-name" id="input-type-name" />
+
+  <label for="input-type-desc">Type Description: </label>
+  <input type="text" name="input-type-desc" id="input-type-desc" />
+
+  <input type="submit" />
+</form>
+
+{{! Embed our javascript to handle the DOM manipulation and AJAX request }}
+<script src="/js/add_type.js"></script>
