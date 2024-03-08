@@ -205,9 +205,7 @@ app.post("/add-spell-ajax", function (req, res) {
   // insert into TOS tables
   let insertTypeOfSpell = `INSERT INTO Type_Of_Spells (spell_id, type_id) VALUES
   (
-      (SELECT spell_id FROM Spells WHERE spell_name = '${spellName}'
-      ORDER BY spell_id DESC
-      LIMIT 1),
+      (SELECT spell_id FROM Spells WHERE spell_name = '${spellName}'),
       ${spellType}
   );`;
   // select all spells
