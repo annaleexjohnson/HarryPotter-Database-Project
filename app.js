@@ -424,6 +424,26 @@ app.post("/add-house-ajax", function (req, res) {
   });
 });
 
+
+/* 
+*******************************
+  TYPES PAGE
+*******************************
+*/
+
+// GET ALL types
+app.get("/types", function (req, res) {
+  let query1 = "SELECT * FROM Types;"; // Define our query
+
+  db.pool.query(query1, function (error, rows, fields) {
+    // Execute the query
+
+    res.render("../views/types.hbs", { data: rows }); // Render the index.hbs file, and also send the renderer
+  }); // an object where 'data' is equal to the 'rows' we
+});
+
+
+
 /*
     LISTENER
 */

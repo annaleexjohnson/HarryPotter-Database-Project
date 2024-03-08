@@ -1,4 +1,4 @@
-<!-- houses.hbs -->
+<!-- types.hbs -->
 <nav>
     <ul>
          <li>
@@ -24,7 +24,7 @@
 </nav>
 
 {{!-- Create a table --}}
-<table id="house-table">
+<table id="types-table">
 
     {{!-- Header section --}}
     <thead>
@@ -46,26 +46,10 @@
         {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
         {{#each data}}
         <tr>
-            <td>{{this.house_id}}</td>
-            <td>{{this.house_name}}</td>
-            <td>{{this.house_founder}}</td>
+            <td>{{this.type_id}}</td>
+            <td>{{this.type_name}}</td>
+            <td>{{this.type_description}}</td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-
-{{!-- Form to add a record to the table  --}}
-<h2>Adding a House</h2>
-<p>To add a new house, please enter their information below and click 'Submit'!</p>
-<form id="add-house-form-ajax">
-    <label for="input-house_name">House Name: </label>
-    <input type="text" name="input-house_name" id="input-house_name">
-    
-    <label for="input-house_founder">House Founder: </label>
-    <input type="text" name="input-house_founder" id="input-house_founder">
-
-    <input type="submit">
-</form>
-
-{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_houses.js"></script>
