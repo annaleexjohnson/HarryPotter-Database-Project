@@ -38,10 +38,9 @@ CREATE OR REPLACE TABLE Types (
 
 -- Create table to store spells and corresponding info
 CREATE OR REPLACE TABLE Spells (
-    spell_id INT(11) AUTO_INCREMENT PRIMARY KEY,
-    spell_name VARCHAR(45) NOT NULL,
+    spell_id INT(11) AUTO_INCREMENT UNIQUE PRIMARY KEY,
+    spell_name VARCHAR(45) UNIQUE NOT NULL ,
     spell_description VARCHAR(255) DEFAULT "",
-    CONSTRAINT UQ_spell UNIQUE (spell_id, spell_name)   -- every spell must be unique
 );
 
 
