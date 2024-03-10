@@ -24,11 +24,35 @@
     </ul>
 </nav>
 
-<h1>Update Spell</h1>
-<p>you can update a spell on this page!</p>
+<h1>Update {{spell.spell_name}}</h1>
+<p>Use the form below to update {{spell.spell_name}}.</p>
+{{!-- Display table for current spell --}}
+<table id="update-spell-table">
+    {{!-- Add table headers based on data --}}
+    <thead>
+        <tr>
+            {{#each spell}}
+                <th>
+                {{@key}}
+                </th>
+            {{/each}}
+        </tr>
+    </thead>
 
-<h2>Update Spell Form</h2>
-<p>Enter any updated information in the form below. Selecting NULL for the spell type will remove the type from that spell.</p>
+    {{!-- Table Body Section --}}
+    <tr>
+        <td>{{spell.spell_id}}</td>
+        <td>{{spell.spell_name}}</td>
+        <td>{{spell.spell_description}}</td>
+        <td>
+        {{#each spellType as |tos|}}
+                {{tos.t_type_name}}
+        {{/each}}
+        </td>      
+    </tr>
+</table>
+
+<h3>Update Spell Name and Description</h3>
 <form id="update-spell-form-ajax">
     <label>Spell ID:</label>
     <span id="update-spell-id">{{spell.spell_id}}</span>
@@ -38,22 +62,37 @@
     <label>Spell Description:</label>
     <textarea id="update-spell-desc" name="update-spell-desc" type="text" >{{spell.spell_description}}</textarea>
 
-    <label>Spell Type:</label>
-    <select id="update-spell-type" id="update-spell-type" >
-        {{#each types}}
-            {{#if (eq ../spell.type_name this.type_name)}}
-            <option id="initial-spell-type" value="{{this.type_id}}" selected>{{this.type_name}}</option>
-            {{else}}
-            <option value="{{this.type_id}}" >{{this.type_name}}</option>
-            {{/if}}
-        {{/each}}
-        {{!-- empty string option represents NULL value --}}
-        <option value="">NULL</option>   
-    </select>
-
-    <input type="submit">
-
+    <input type="submit" value="Update">
 </form>
 
 <script src="/js/update_spell.js"></script>
+
+<h3>Update Spell Type</h3>
+{{!-- for each type create form to update type --}}
+{{#each spellType as |spell|}}
+    {{!-- render empty div if there's a null type --}}
+    {{#if (eq this.t_type_name NULL)}}
+        <div></div>
+    {{else}}
+    <p > Current Type: {{this.t_type_name}}</p>
+
+    <form id="update-spell-type-form-ajax-{{this.ts_spell_id}}-{{this.ts_type_id}}"
+    onsubmit="updateSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})">
+        <select class="update-spell-type" >
+            {{#each ../types as |type|}}
+                {{#if (eq type.type_id spell.ts_type_id)}}
+                <option class="initial-spell-type" value="{{type.type_id}}" selected>{{type.type_name}}</option>
+                {{else}}
+                <option value="{{type.type_id}}" >{{type.type_name}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+        <input type="submit" value="Update"/>
+    </form>
+    {{/if}}
+{{/each}}
+
+<script src="/js/update_spell_type.js"></script>
+
+
 

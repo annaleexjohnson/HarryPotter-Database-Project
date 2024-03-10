@@ -173,13 +173,15 @@ app.put("/put-wizard-ajax", function (req, res) {
 
 // GET ALL SPELLS
 app.get("/spells", function (req, res) {
-  let selectSpells = `SELECT S.spell_id, S.spell_name, T.type_name, S.spell_description
-    FROM Spells S
-    JOIN Type_Of_Spells TS ON S.spell_id = TS.spell_id
-    JOIN Types T ON TS.type_id = T.type_id
-    ORDER BY S.spell_name ASC`;
+  let selectSpells = `SELECT * FROM Spells;`;
 
   let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
+
+  // jons types and tos table
+  let selectTOS = `SELECT T.type_id as t_type_id, T.type_name as t_type_name,
+  TS.type_id as ts_type_id, TS.spell_id as ts_spell_id 
+  FROM Type_Of_Spells TS 
+  JOIN Types T on T.type_id = TS.type_id;`;
 
   db.pool.query(selectSpells, function (error, rows, fields) {
     // Execute first query
@@ -187,8 +189,116 @@ app.get("/spells", function (req, res) {
 
     db.pool.query(selectTypes, function (erorr, rows, fields) {
       let Types = rows;
-      return res.render("../views/spells.hbs", { data: Spells, types: Types });
+
+      db.pool.query(selectTOS, function (erorr, rows, fields) {
+        let TOS = rows;
+        return res.render("../views/spells.hbs", {
+          data: Spells,
+          types: Types,
+          tos: TOS,
+        });
+      });
     });
+  });
+});
+
+// RENDER UPDATE SPELL PAGE
+app.get("/updateSpell/:spellID", function (req, res) {
+  let spellID = parseInt(req.params.spellID);
+
+  let selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+  FROM Spells S
+  JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
+  JOIN Types T ON TS.type_id = T.type_id
+  WHERE TS.spell_id = ${spellID};`;
+
+  let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
+
+  let selectSpellType = `SELECT T.type_id as t_type_id, T.type_name as t_type_name,
+  TS.type_id as ts_type_id, TS.spell_id as ts_spell_id 
+  FROM Type_Of_Spells TS 
+  JOIN Types T on T.type_id = TS.type_id
+  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = ${spellID});`;
+
+  // select spell name and description
+  db.pool.query(selectSpell, function (err, rows, fields) {
+    let Spell = rows[0];
+
+    // select all types from type table
+    db.pool.query(selectTypes, function (err, rows, fields) {
+      let Types = rows;
+
+      // select spell types
+      db.pool.query(selectSpellType, function (err, rows, fields) {
+        return res.render("../views/updateSpell.hbs", {
+          spell: Spell,
+          types: Types,
+          spellType: rows,
+        });
+      });
+    });
+  });
+});
+
+// UPDATE SPELL NAME AND DESCRIPTION
+app.put("/put-spell-ajax", function (req, res) {
+  let data = req.body;
+  let spellID = parseInt(data.spell_id);
+  let spellName = data.spell_name;
+  let spellDesc = data.spell_desc;
+
+  // updates name and description in Spells table
+  let updateSpell = `UPDATE Spells SET 
+    spell_name = '${spellName}', 
+    spell_description = '${spellDesc}' 
+    WHERE spell_id = ${spellID}`;
+
+  // select current spell name & desc
+  let selectSpell = `SELECT spell_name, spell_description 
+  FROM Spells 
+  WHERE spell_id = ${spellID};`;
+
+  // update spells table
+  db.pool.query(updateSpell, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // select spell name and desc
+      db.pool.query(selectSpell, function (err, rows, fields) {
+        if (err) {
+          console.log(err);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+// UPDATE SPELL TYPE
+app.put("/put-spell-type-ajax", function (req, res) {
+  let data = req.body;
+  let spellID = data.spell_id;
+  let initTypeID = data.init_type_id;
+  let newTypeID = parseInt(data.new_type_id);
+
+  let updateQuery = `UPDATE Type_Of_Spells SET 
+	  type_id = ${newTypeID}
+    WHERE spell_id = ${spellID} AND type_id = ${initTypeID};`;
+
+  // update TOS table
+  db.pool.query(updateQuery, function (error, rows, fields) {
+    console.log(updateQuery);
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
   });
 });
 
@@ -273,81 +383,6 @@ app.delete("/delete-spell-ajax/", function (req, res) {
           res.sendStatus(400);
         } else {
           res.sendStatus(204);
-        }
-      });
-    }
-  });
-});
-
-// RENDER UPDATE SPELL PAGE
-app.get("/updateSpell/:spellID", function (req, res) {
-  let spellID = parseInt(req.params.spellID);
-
-  console.log(typeof spellID);
-
-  let selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
-  FROM Spells S
-  JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
-  JOIN Types T ON TS.type_id = T.type_id
-  WHERE TS.spell_id = ${spellID};`;
-
-  let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
-
-  db.pool.query(selectSpell, function (err, rows, fields) {
-    let Spell = rows[0];
-    console.log(Spell);
-    db.pool.query(selectTypes, function (err, rows, fields) {
-      let Types = rows;
-      console.log(Spell);
-      return res.render("../views/updateSpell.hbs", {
-        spell: Spell,
-        types: Types,
-      });
-    });
-  });
-});
-
-// UPDATE SPELL ROW
-app.put("/put-spell-ajax", function (req, res) {
-  let data = req.body;
-  let spellID = parseInt(data.spell_id);
-  let spellName = data.spell_name;
-  let spellDesc = data.spell_desc;
-  let spellType = parseInt(data.spell_type);
-  let initialType = data.initial_type;
-
-  // updates name and description in Spells table
-  let updateSpell = `UPDATE Spells SET 
-    spell_name = '${spellName}', 
-    spell_description = '${spellDesc}' 
-    WHERE spell_id = ${spellID}`;
-
-  // updates type of spell in TOS  table (null values allowed)
-  let updateTOS = `UPDATE Type_Of_Spells SET 
-      type_id = (SELECT type_id FROM Types WHERE type_id = ${spellType}),
-      spell_id = (SELECT spell_id FROM Spells WHERE spell_id = ${spellID})
-      WHERE 
-      spell_id = (SELECT spell_id FROM Spells WHERE spell_id = ${spellID}) 
-      AND 
-      type_id = (SELECT type_id FROM Types WHERE type_id = ${initialType});`;
-
-  // update spells table
-  db.pool.query(updateSpell, function (error, rows, fields) {
-    // handle error
-    // console.log("update spells query:", updateSpell)
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      // update TOS table
-      db.pool.query(updateTOS, function (error, row, fields) {
-        // console.log("update tos query:", updateTOS)
-        // handle error
-        if (error) {
-          console.log(error);
-          res.sendStatus(400);
-        } else {
-          res.sendStatus(200);
         }
       });
     }

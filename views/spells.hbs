@@ -35,25 +35,33 @@
                 {{@key}}
                 </th>
             {{/each}}
+            <th>types</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
     </thead>
 
     {{!-- Table Body Section --}}
-    {{#each data}}
+    {{#each data as |spell|}}
     <tr>
-        <td>{{this.spell_id}}</td>
-        <td>{{this.spell_name}}</td>
-        <td>{{this.type_name}}</td>
-        <td>{{this.spell_description}}</td>
+        <td>{{spell.spell_id}}</td>
+        <td>{{spell.spell_name}}</td>
+        <td>{{spell.spell_description}}</td>
+
+        <td>
+        {{#each ../tos as |tos|}}
+            {{#if (eq tos.ts_spell_id spell.spell_id)}}
+                {{tos.t_type_name}}
+            {{/if}}
+        {{/each}}
+        </td>
         
         <td>
-            <a href="updateSpell/{{this.spell_id}}">
+            <a href="updateSpell/{{spell.spell_id}}">
                 <button>Edit</button>
             </a>
         </td>
-        <td><button onclick="deleteSpell( {{this.spell_id}}, '{{this.type_name}}')">Delete</button></td>
+        <td><button onclick="deleteSpell( {{spell.spell_id}}, '{{spell.type_name}}')">Delete</button></td>
     </tr>
     {{/each}}
 </table>

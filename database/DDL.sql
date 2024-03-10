@@ -47,7 +47,7 @@ CREATE OR REPLACE TABLE Spells (
 -- Create intersection table to store spells and their type classification
 CREATE OR REPLACE TABLE Type_Of_Spells (
     spell_id INT(11) NOT NULL,
-    type_id INT(11) NOT NULL,
+    type_id INT(11),
     PRIMARY KEY(spell_id, type_id),     -- PK is combo of spell_id and type_id, which are both unique in their respective table
     FOREIGN KEY (spell_id) REFERENCES Spells(spell_id) ON DELETE CASCADE,   -- if spell is deleted, delete the record of its type as well
     FOREIGN KEY (type_id) REFERENCES Types(type_id) ON DELETE CASCADE       -- if type is deleted, delete any spells that reference the type
