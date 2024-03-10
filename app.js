@@ -436,17 +436,34 @@ app.delete("/delete-spell-ajax/", function (req, res) {
 *******************************
 */
 
-// GET ALL INSTANCES
+// GET ALL INSTANCES (AND/OR SEARCH RESULTS)
 app.get("/instances", function (req, res) {
+  // select al instances
   selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
   FROM Spell_Instances SI
   JOIN Spells S ON SI.spell_id = S.spell_id
   JOIN Wizards W ON SI.wizard_id = W.wizard_id;`;
+  // select wizards
+  selectWizards = `SELECT * FROM Wizards`;
+  // select spells
+  selectSpells = `SELECT * FROM Spells`;
 
+  // get all instances
   db.pool.query(selectInstance, function (err, rows) {
-    console.log(rows);
-    return res.render("../views/instances.hbs", {
-      instances: rows,
+    let Instances = rows;
+    // get all wizards
+    db.pool.query(selectWizards, function (err, rows) {
+      let Wizards = rows;
+      // get all spells
+      db.pool.query(selectSpells, function (err, rows) {
+        let Spells = rows;
+        // get all search results
+        return res.render("../views/instances.hbs", {
+          instances: Instances,
+          wizards: Wizards,
+          spells: Spells,
+        });
+      });
     });
   });
 });
