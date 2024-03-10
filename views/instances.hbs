@@ -60,22 +60,36 @@
 {{!-- ADD INSTANCE FORM --}}
 <h2>Add Spell Instance</h2>
 <p>To add a new instance, search for a spell and the wizard who used it. Add any notes and click submit!</p>
-<form>
+<form id="add-instance-form-ajax">
     {{!-- Select wizard --}}
-    <label for="instances-wizards-options">Search wizard:</label>
-    <input list="instances-wizards-options" name="instances-wizards-options" placeholder="Search wizard">
-    <datalist id="instances-wizards-options">
+    <label for="instances-wizards-option">Search wizard:</label>
+    <input 
+    id="instances-wizards-option" 
+    list="instances-wizards-option-datalist"
+    name="instances-wizards-option"
+    type="text"
+    placeholder="Search wizard">
+
+    <datalist id="instances-wizards-option-datalist">
+        <option value=""></option>
         {{#each wizards}}
-        <option value="{{this.wizard_name}}">{{this.wizard_name}}</option>
+        <option value="{{this.wizard_name}}"></option>
         {{/each}}
     </datalist>
 
     {{!-- Select Spell --}}
-    <label for="instances-spells-options">Search Spell:</label>
-    <input list="instances-spells-options" name="instances-spells-options" placeholder="Search spell">
-    <datalist id="instances-spells-options">
+    <label for="instances-spells-option">Search Spell:</label>
+    <input 
+    id="instances-spells-option"
+    list="instances-spells-option-datalist"
+    name="instances-spells-option" 
+    type="text"
+    placeholder="Search spell">
+
+    <datalist id="instances-spells-option-datalist">
+        <option value=""></option>
         {{#each spells}}
-        <option value="{{this.spell_name}}">{{this.spell_name}}</option>
+        <option value="{{this.spell_name}}"></option>
         {{/each}}
     </datalist>
 
@@ -84,6 +98,8 @@
     <input type="text" name="input-instance-notes" id="input-instance-notes" placeholder="occured on..."/>
 
     <input type="Submit"/>
-
 </form>
+
+<script src="./js/add_instance.js"></script>
+
 

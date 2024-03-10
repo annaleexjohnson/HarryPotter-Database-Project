@@ -442,7 +442,8 @@ app.get("/instances", function (req, res) {
   selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
   FROM Spell_Instances SI
   JOIN Spells S ON SI.spell_id = S.spell_id
-  JOIN Wizards W ON SI.wizard_id = W.wizard_id;`;
+  JOIN Wizards W ON SI.wizard_id = W.wizard_id
+  ORDER BY SI.instance_id ASC;`;
   // select wizards
   selectWizards = `SELECT * FROM Wizards`;
   // select spells
@@ -465,6 +466,46 @@ app.get("/instances", function (req, res) {
         });
       });
     });
+  });
+});
+
+// ADD INSTANCE
+app.post("/add-instance-ajax", function (req, res) {
+  let data = req.body;
+  let spellName = data.spell_name;
+  let wizardName = data.wizard_name;
+  let notes = data.notes;
+
+  let addInstance = `INSERT INTO Spell_Instances (spell_id, wizard_id, notes) 
+  VALUES (
+      (SELECT spell_id FROM Spells WHERE spell_name='${spellName}'),
+      (SELECT wizard_id FROM Wizards WHERE wizard_name='${wizardName}'), 
+      '${notes}'	
+  );`;
+
+  let selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
+  FROM Spell_Instances SI
+  JOIN Spells S ON SI.spell_id = S.spell_id
+  JOIN Wizards W ON SI.wizard_id = W.wizard_id
+  WHERE W.wizard_name= '${wizardName}' and S.spell_name = '${spellName}';`;
+
+  // add instance
+  db.pool.query(addInstance, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(400);
+    } else {
+      // get all instances
+      db.pool.query(selectInstance, function (err, rows) {
+        if (err) {
+          console.log(err);
+          res.sendStatus(400);
+        } else {
+          console.log(rows);
+          res.send(rows);
+        }
+      });
+    }
   });
 });
 
