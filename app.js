@@ -291,7 +291,48 @@ app.put("/put-spell-type-ajax", function (req, res) {
 
   // update TOS table
   db.pool.query(updateQuery, function (error, rows, fields) {
-    console.log(updateQuery);
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
+// ADD SPELL TYPE
+app.post("/post-spell-type-ajax/", function (req, res) {
+  let data = req.body;
+  let spellID = parseInt(data.spell_id);
+  let typeID = parseInt(data.spell_type);
+
+  // deleting from spells will delete on cascade
+  let insertTOS = `INSERT INTO Type_Of_Spells(spell_id, type_id) VALUES (${spellID}, ${typeID});`;
+
+  // add to spells table
+  db.pool.query(insertTOS, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.status(400).send(error.code);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
+// DELETE SPELL TYPE
+app.delete("/delete-spell-type-ajax/", function (req, res) {
+  let data = req.body;
+  let spellID = data.spell_id;
+  let typeID = data.type_id;
+
+  // deleting from spells will delete on cascade
+  let deleteTOS = `DELETE FROM Type_Of_Spells WHERE spell_id = ${spellID} AND type_id = ${typeID}`;
+
+  // delete from spells table
+  db.pool.query(deleteTOS, function (error, rows, fields) {
     // handle error
     if (error) {
       console.log(error);

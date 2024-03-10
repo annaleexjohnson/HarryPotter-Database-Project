@@ -67,7 +67,7 @@
 
 <script src="/js/update_spell.js"></script>
 
-<h3>Update Spell Type</h3>
+<h3>Update or Delete Spell Type</h3>
 {{!-- for each type create form to update type --}}
 {{#each spellType as |spell|}}
     {{!-- render empty div if there's a null type --}}
@@ -89,10 +89,23 @@
         </select>
         <input type="submit" value="Update"/>
     </form>
+    <button onclick="deleteSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})">Remove {{this.t_type_name}} Type</button>
     {{/if}}
 {{/each}}
 
 <script src="/js/update_spell_type.js"></script>
+<script src="/js/delete_spell_type.js"></script>
 
+<h3>Add Spell Type to {{spell.spell_name}}</h3>
+<form id="add-spell-type-form-ajax">
+    <select id="add-spell-type" >
+        {{#each types as |type|}}
+            <option value="{{type.type_id}}" >{{type.type_name}}</option>
+        {{/each}}
+    </select>
+    <input type="submit" value="Add Type"/>
+</form>
+
+<script src="/js/add_spell_type.js"></script>
 
 
