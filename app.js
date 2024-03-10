@@ -436,7 +436,7 @@ app.delete("/delete-spell-ajax/", function (req, res) {
 *******************************
 */
 
-// GET ALL SPELLS
+// GET ALL INSTANCES
 app.get("/instances", function (req, res) {
   selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
   FROM Spell_Instances SI
@@ -458,7 +458,6 @@ HOUSES PAGE
 */
 
 // get all houses
-// ********* Houses Page ************
 app.get("/houses", function (req, res) {
   let query1 = "SELECT * FROM Houses;"; // Define our query
 
@@ -542,6 +541,26 @@ app.post("/add-type-ajax", function (req, res) {
           res.send(rows);
         }
       });
+    }
+  });
+});
+
+// DELETE SPELL ROW
+app.delete("/delete-type-ajax", function (req, res) {
+  let data = req.body;
+  let typeID = data.type_id;
+
+  // For types table, on delete set null
+  let deleteType = `DELETE FROM Types WHERE type_id = ${typeID};`;
+
+  // delete from types table
+  db.pool.query(deleteType, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
     }
   });
 });

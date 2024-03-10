@@ -37,6 +37,7 @@
                 {{@key}}
             </th>
             {{/each}}
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -49,10 +50,15 @@
             <td>{{this.type_id}}</td>
             <td>{{this.type_name}}</td>
             <td>{{this.type_description}}</td>
+            <td>
+                <button onclick="deleteType({{this.type_id}})">Delete</button>
+            </td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<script src="/js/delete_type.js"></script>
 
 {{! Form to add a record to the table  }}
 <h2>Add a new spell type here</h2>
