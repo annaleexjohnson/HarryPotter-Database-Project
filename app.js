@@ -317,7 +317,7 @@ app.post("/post-spell-type-ajax/", function (req, res) {
       console.log(error);
       res.status(400).send(error.code);
     } else {
-      res.sendStatus(204);
+      res.sendStatus(200);
     }
   });
 });

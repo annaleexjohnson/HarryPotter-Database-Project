@@ -41,6 +41,7 @@ addSpellTypeForm.addEventListener("submit", function (e) {
       } else {
         window.alert("There was an error adding the type.");
       }
+      window.location.href = `/updateSpell/${spellID}`;
     }
   };
 
