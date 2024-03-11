@@ -51,11 +51,13 @@
             <button>Edit</button>
         </td>
         <td>
-            <button>Delete</button>
+            <button onclick="deleteInstance({{this.instance_id}})">Delete</button>
         </td>
     </tr>
     {{/each}}
 </table>
+
+<script src="./js/delete_instance.js"></script>
 
 {{!-- ADD INSTANCE FORM --}}
 <h2>Add Spell Instance</h2>

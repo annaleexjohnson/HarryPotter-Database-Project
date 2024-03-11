@@ -509,6 +509,26 @@ app.post("/add-instance-ajax", function (req, res) {
   });
 });
 
+// DELETE INSTANCE ROW
+app.delete("/delete-instance-ajax/", function (req, res) {
+  let data = req.body;
+  let instanceID = data.instance_id;
+
+  // deleting from spells will delete on cascade
+  let deleteInstance = `DELETE FROM Spell_Instances WHERE instance_id = ${instanceID};`;
+
+  // delete from spells table
+  db.pool.query(deleteInstance, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
 /*
 *********************************
 HOUSES PAGE
