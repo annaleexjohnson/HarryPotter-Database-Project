@@ -254,7 +254,9 @@ table {
   background-color: var(--muted-navy);
   border: var(--gryffindor-yellow) 0.1rem solid;
   border-collapse: collapse;
+}
 
+.main-table {
   margin-bottom: 10vw;
 }
 
@@ -395,6 +397,19 @@ th {
   color: var(--gryffindor-yellow);
 }
 
+/* INSTANCES PAGE */
+.update-instance-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  background-color: var(--muted-navy);
+  border: var(--gryffindor-yellow) 0.1rem solid;
+  width: 100%;
+  height: fit-content;
+  padding: 5vw;
+  margin: 5vw 0;
+}
+
 /* ------ Media Queries ------ */
 /* (based on Bootstrap Breakpoints) */
 
@@ -408,7 +423,8 @@ th {
 
 /* medium */
 @media only screen and (min-width: 768px) {
-  .add-container {
+  .add-container,
+  .update-instance-container {
     max-width: 50vw;
   }
 }
@@ -454,7 +470,8 @@ th {
     max-width: 80%;
   }
 
-  .add-container {
+  .add-container,
+  .update-instance-container {
     max-width: 35vw;
   }
 }
