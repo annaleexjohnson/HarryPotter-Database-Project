@@ -1,13 +1,16 @@
 <!-- houses.hbs -->
+<h1>Houses</h1>
+
+<div class="add-button-container" >
+  <button id="add-house-btn">Add House</button>
+</div>
+
+<h3 class="tagline">View the current list of Hogwarts Houses</h3>
 
 {{!-- Create a table --}}
 <table id="house-table">
-
     {{!-- Header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
             <th>House ID</th>
             <th>House Name</th>
@@ -25,7 +28,11 @@
             <td>{{this.house_id}}</td>
             <td>{{this.house_name}}</td>
             <td>{{this.house_founder}}</td>
-            <td><button onclick="deleteHouse({{this.house_id}})">Delete</button></td>
+            <td>
+                <div class="icon-container" onclick="deleteHouse({{this.house_id}})">
+                    <img src="/images/delete-icon.png"/>
+                </div>
+            </td>
         </tr>
         {{/each}}
     </tbody>
@@ -33,19 +40,58 @@
 
 <script src="./js/delete_house.js"></script>
 
+<div class="modal-container" id="add-house-modal-container">
+    <div class="add-container" id="add-house-container">
+        <div class="close-modal" id="close-add-house-container">
+            <img src="/images/close-icon.png" alt="close icon"/>
+        </div>
+        <h2>Add a New House</h2>
+        <form id="add-house-form-ajax" class="add-form">
+            <div class="form-input-group">
+                <label for="input-house_name">House Name: </label>
+                <input type="text" name="input-house_name" id="input-house_name" placeholder="Group 78">
+            </div>
+
+            <div class="form-input-group">
+                <label for="input-house_founder">House Founder: </label>
+                <input type="text" name="input-house_founder" id="input-house_founder" placeholder="Nina & Annalee">
+            </div>
+
+            <input type="submit" class="submit-button">
+        </form>
+    </div>
+</div>
 
 {{!-- Form to add a record to the table  --}}
-<h2>Adding a House</h2>
-<p>To add a new house, please enter their information below and click 'Submit'!</p>
-<form id="add-house-form-ajax">
-    <label for="input-house_name">House Name: </label>
-    <input type="text" name="input-house_name" id="input-house_name" placeholder="Group 78">
-    
-    <label for="input-house_founder">House Founder: </label>
-    <input type="text" name="input-house_founder" id="input-house_founder" placeholder="Nina & Annalee">
-
-    <input type="submit">
-</form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
 <script src="/js/add_houses.js"></script>
+
+<script>
+  let modal = document.getElementById("add-house-modal-container");
+
+  // Get the button that opens the modal
+  var openBtn = document.getElementById("add-house-btn");
+
+  // Get the <span> element that closes the modal
+  var closeBtn = document.getElementById("close-add-house-container")
+
+  // When the user clicks the button, open the modal 
+  openBtn.onclick = function() {
+    modal.style.display = "flex";
+    document.body.classList.add("no-scroll")
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.classList.remove("no-scroll")
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+</script>
