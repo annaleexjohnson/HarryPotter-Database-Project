@@ -82,7 +82,6 @@
     {{!-- Add spell type --}}
     <label for="input-spell-type">Spell Type: </label>
     <select name="input-spell-type" id="input-spell-type">
-        <option value="">Select a type</option>
         {{#each types}}
         <option value="{{this.type_id}}">{{this.type_name}}</option>
         {{/each}}
