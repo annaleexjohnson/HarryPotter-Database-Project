@@ -100,36 +100,4 @@
 <script src="./js/add_wizard.js"></script>
 
 
-{{!-- Form to update wizard based on name --}}
-<h2>Update Wizard Form</h2>
-<p>To update a specific wizard, select their name from the drop-down menu on the left and update their information</p>
-<form id="update-wizard-form-ajax">
-
-    <label for="update-wizard-name">Full name: </label>
-    <select name="update-wizard-name" id="update-wizard-name">
-        <option value="">Select a Wizard</option>
-        {{#each data}}
-        <option value="{{this.wizard_id}}">{{this.wizard_name}}</option>
-        {{/each}}
-    </select>
-
-    <label for="update-wizard-house">Wizard's House: </label>
-    <select name="update-wizard-house" id="update-wizard-house">
-        <option value="">Select a House</option>
-        {{#each Houses}}
-        <option value="{{this.house_id}}">{{this.house_name}}</option>
-        {{/each}}
-    </select>
-    <label for="update-wizard-graduated">Wizard Graduated? </label>
-    <select name="update-wizard-graduated" id="update-wizard-graduated" >
-        <option value="">--</option>
-        <option value="1">Yes</option>
-        <option value="0">No</option>    
-    </select>
-    <input type="submit">
-</form>
-
-<script src="./js/update_wizard.js"></script>
-
-
 
