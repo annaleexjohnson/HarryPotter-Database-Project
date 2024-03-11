@@ -29,11 +29,10 @@
     {{!-- table header --}}
     <thead>
         <tr>
-        {{#each wizard}}
-            <th>
-            {{@key}}
-            </th>
-        {{/each}}
+            <th>Wizard ID</th>
+            <th>Wizard Name</th>
+            <th>Wizard's House</th>
+            <th>Graduated?</th>
         </tr>
     </thead>
     {{!-- table body --}}
@@ -41,8 +40,12 @@
         <tr>
             <td id="update-wizard-id">{{wizard.wizard_id}}</td>
             <td>{{wizard.wizard_name}}</td>
-            <td>{{wizard.wizard_graduated}}</td>        
             <td>{{wizard.house_name}}</td>
+            {{#if (eq wizard.wizard_graduated 1)}}
+                <td>Yes</td>
+            {{else}}
+                <td>No</td> 
+            {{/if}}        
         </tr>
     </tbody>
 </table>
@@ -64,7 +67,7 @@
         {{/each}}
     </select>
     {{!-- update wizard graduated --}}
-    <label for="update-wizard-graduated">Wizard Graduated? </label>
+    <label for="update-wizard-graduated">Graduated? </label>
     <select name="update-wizard-graduated" id="update-wizard-graduated" >
         {{#if (eq wizard.wizard_graduated 1)}}
             <option value="1" selected>Yes</option>
