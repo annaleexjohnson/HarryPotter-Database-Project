@@ -14,6 +14,20 @@ addTypeForm.addEventListener("submit", function (e) {
   let typeNameValue = inputTypeName.value;
   let typeDescValue = inputTypeDesc.value;
 
+  // sanitize type nae
+  const sanitizeName = typeNameValue.split(" ");
+  for (let i = 0; i < sanitizeName.length; i++) {
+    sanitizeName[i] =
+      sanitizeName[i][0].toUpperCase() + sanitizeName[i].substr(1);
+  }
+
+  // sanitize type description
+  const sanitizeDesc =
+    typeDescValue[0].toUpperCase() + typeDescValue.substring(1);
+
+  typeNameValue = sanitizeName.join(" ");
+  typeDescValue = sanitizeDesc;
+
   // Put our data we want to send in a javascript object
   let data = {
     typeName: typeNameValue,
