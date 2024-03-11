@@ -32,11 +32,9 @@
         {{!-- For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>House ID</th>
+            <th>House Name</th>
+            <th>House Founder</th>
             <th>Delete</th>
         </tr>
     </thead>
@@ -64,10 +62,10 @@
 <p>To add a new house, please enter their information below and click 'Submit'!</p>
 <form id="add-house-form-ajax">
     <label for="input-house_name">House Name: </label>
-    <input type="text" name="input-house_name" id="input-house_name">
+    <input type="text" name="input-house_name" id="input-house_name" placeholder="Group 78">
     
     <label for="input-house_founder">House Founder: </label>
-    <input type="text" name="input-house_founder" id="input-house_founder">
+    <input type="text" name="input-house_founder" id="input-house_founder" placeholder="Nina & Annalee">
 
     <input type="submit">
 </form>
