@@ -22,7 +22,14 @@ addWizardForm.addEventListener("submit", function (e) {
   let wizardGraduatedValue = inputWizardGraduated.value;
   let wizardHouseValue = inputWizardHouse.value;
 
-  console.log(wizardNameValue, wizardGraduatedValue, wizardHouseValue);
+  const sanitizeName = wizardNameValue.split(" ");
+
+  for (let i = 0; i < sanitizeName.length; i++) {
+    sanitizeName[i] =
+      sanitizeName[i][0].toUpperCase() + sanitizeName[i].substr(1);
+  }
+
+  wizardNameValue = sanitizeName.join(" ");
 
   // Put our data we want to send in a javascript object
   let data = {
