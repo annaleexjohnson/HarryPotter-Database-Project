@@ -25,6 +25,20 @@ updateSpellForm.addEventListener("submit", function (e) {
     return;
   }
 
+  // sanitize spell name
+  const sanitizeName = spellNameValue.split(" ");
+  for (let i = 0; i < sanitizeName.length; i++) {
+    sanitizeName[i] =
+      sanitizeName[i][0].toUpperCase() + sanitizeName[i].substr(1);
+  }
+
+  // sanitize spell description
+  const sanitizeDesc =
+    spellDescValue[0].toUpperCase() + spellDescValue.substring(1);
+
+  spellNameValue = sanitizeName.join(" ");
+  spellDescValue = sanitizeDesc;
+
   // Put our data we want to send in a javascript object
   let data = {
     spell_id: spellID,
