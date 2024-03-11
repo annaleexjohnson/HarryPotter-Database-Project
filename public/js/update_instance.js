@@ -15,16 +15,23 @@ updateInstanceForm.addEventListener("submit", function (e) {
   let instanceID = document.getElementById("update-instance-id").innerText; // returns string
   let wizardName = document.getElementById("update-wizards-option");
   let spellName = document.getElementById("update-spells-option");
+  let notes = document.getElementById("input-instance-notes");
 
   // Get the values from the form fields
   let wizardNameValue = wizardName.value;
-  let spellNameValue = spellName.value; // returns string
+  let spellNameValue = spellName.value;
+  let notesValue = notes.value;
+
+  // sanitize notes
+  const sanitizeNotes = notesValue[0].toUpperCase() + notesValue.substring(1);
+  notesValue = sanitizeNotes;
 
   // Put our data we want to send in a javascript object
   let data = {
     instance_id: instanceID,
     wizard_name: wizardNameValue,
     spell_name: spellNameValue,
+    notes: notesValue,
   };
 
   // Setup our AJAX request

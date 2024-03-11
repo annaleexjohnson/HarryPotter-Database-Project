@@ -586,10 +586,12 @@ app.put("/put-instance-ajax", function (req, res) {
   let instanceID = data.instance_id;
   let wizardName = data.wizard_name;
   let spellName = data.spell_name;
+  let notes = data.notes;
 
   let updateInstance = `UPDATE Spell_Instances SET
 	  spell_id = (SELECT spell_id FROM Spells WHERE spell_name = '${spellName}'),
-    wizard_id = (SELECT wizard_id FROM Wizards WHERE wizard_name = '${wizardName}')
+    wizard_id = (SELECT wizard_id FROM Wizards WHERE wizard_name = '${wizardName}'),
+    notes = '${notes}'
     WHERE instance_id = ${instanceID};`;
 
   db.pool.query(updateInstance, function (err, rows) {
