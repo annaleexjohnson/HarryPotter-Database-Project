@@ -29,11 +29,10 @@
     {{!-- Add table headers based on data --}}
     <thead>
         <tr>
-            {{#each instance}}
-                <th>
-                {{@key}}
-                </th>
-            {{/each}}
+            <th>Instance ID</th>
+            <th>Spell Name</th>
+            <th>Wizard Name</th>
+            <th>Notes</th>
         </tr>
     </thead>
 
@@ -48,7 +47,7 @@
 
 <form id="update-instance-form-ajax">
     {{!-- Select wizard --}}
-    <label for="update-wizards-option">Search wizard:</label>
+    <label for="update-wizards-option">Search Wizard:</label>
     <input 
     id="update-wizards-option" 
     list="update-wizards-option-datalist"
