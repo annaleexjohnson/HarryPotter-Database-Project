@@ -30,12 +30,10 @@
     {{!-- Add table headers based on data --}}
     <thead>
         <tr>
-            {{#each data.[0]}}
-                <th>
-                {{@key}}
-                </th>
-            {{/each}}
-            <th>types</th>
+            <th>Spell ID</th>
+            <th>Spell Name</th>
+            <th>Spell Description</th>
+            <th>Spell Type(s)</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -77,10 +75,10 @@
 <form id="add-spell-form-ajax">
     {{!-- Add spell name --}}
     <label for="input-spell-name">Spell Name: </label>
-    <input type="text" name="input-spell-name" id="input-spell-name" />
+    <input type="text" name="input-spell-name" id="input-spell-name" placeholder="Structis Querio Langors"/>
     {{!-- Add spell desc --}}
     <label for="input-spell-desc">Spell Description: </label>
-    <input type="text" name="input-spell-desc" id="input-spell-desc" />
+    <input type="text" name="input-spell-desc" id="input-spell-desc" placeholder="used to manage databases"/>
     {{!-- Add spell type --}}
     <label for="input-spell-type">Spell Type: </label>
     <select name="input-spell-type" id="input-spell-type">
