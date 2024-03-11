@@ -307,7 +307,8 @@ th {
 }
 
 /* SPELLS PAGE */
-.spell-desc {
+.spell-desc,
+.type-desc {
   max-width: 20vw;
   text-align: left;
   padding: 2vw;

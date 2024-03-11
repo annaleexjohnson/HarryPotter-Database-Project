@@ -1,5 +1,13 @@
 <!-- types.hbs -->
 
+<h1>Types of Spells</h1>
+
+<div class="add-button-container" >
+  <button id="add-spell-type-btn">Add Type</button>
+</div>
+
+<h3 class="tagline">View the current list of spell types</h3>
+
 {{!-- Create a table --}}
 <table id="types-table">
 
@@ -20,10 +28,13 @@
         <tr>
             <td>{{this.type_id}}</td>
             <td>{{this.type_name}}</td>
-            <td>{{this.type_description}}</td>
+            <td class="type-desc">{{this.type_description}}</td>
             <td>
-                <button onclick="deleteType({{this.type_id}})">Delete</button>
+                <div class="icon-container" onclick="deleteType({{this.type_id}})">
+                <img src="/images/delete-icon.png"/>
+                </div>
             </td>
+        </td>
         </tr>
         {{/each}}
     </tbody>
@@ -32,17 +43,56 @@
 <script src="/js/delete_type.js"></script>
 
 {{! Form to add a new type to the table  }}
-<h2>Add a new spell type here</h2>
-<p>To add a new type, please enter their information below and click 'Submit'!</p>
-<form id="add-type-form-ajax">
-  <label for="input-type-name">Type Name: </label>
-  <input type="text" name="input-type-name" id="input-type-name" placeholder="Computer science"/>
+<div class="modal-container" id="add-spell-type-modal-container">
+  <div class="add-container wizard" id="add-spell-type-container">
+    <div class="close-modal" id="close-add-spell-type-container">
+      <img src="/images/close-icon.png" alt="close icon"/>
+    </div>
+    <h2>Add a New spell Type</h2>
+    <form id="add-type-form-ajax" class="add-form">
+        {{!-- Add type name --}}
+        <div class="form-input-group">
+            <label for="input-type-name">Type Name: </label>
+            <input type="text" name="input-type-name" id="input-type-name" placeholder="Computer science"/>
+        </div>
+        {{!-- Add type description --}}
+        <div class="form-input-group">        
+            <label for="input-type-desc">Type Description: </label>
+            <input type="text" name="input-type-desc" id="input-type-desc" placeholder="A type of magic used with computers"/>
+        </div>
+        <input type="submit" class="submit-button"/>
+    </form>
 
-  <label for="input-type-desc">Type Description: </label>
-  <input type="text" name="input-type-desc" id="input-type-desc" placeholder="A type of magic used with computers"/>
-
-  <input type="submit" />
-</form>
+  </div>
+</div>
 
 {{! Embed our javascript to handle the DOM manipulation and AJAX request }}
 <script src="/js/add_type.js"></script>
+<script>
+  let modal = document.getElementById("add-spell-type-modal-container");
+
+  // Get the button that opens the modal
+  var openBtn = document.getElementById("add-spell-type-btn");
+
+  // Get the <span> element that closes the modal
+  var closeBtn = document.getElementById("close-add-spell-type-container")
+
+  // When the user clicks the button, open the modal 
+  openBtn.onclick = function() {
+    modal.style.display = "flex";
+    document.body.classList.add("no-scroll")
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.classList.remove("no-scroll")
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+</script>
