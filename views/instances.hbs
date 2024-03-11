@@ -1,7 +1,13 @@
 <!-- Spell Instances -->
 
 <h1>List of Spells Instances</h1>
-<p>View a list of wizards who have used each spell, or add a new instance where a spell was used.</p>
+
+<div class="add-button-container" >
+  <button id="add-instance-btn">Add Instance</button>
+</div>
+
+<h3 class="tagline">Current list of wizards who have used each spell:</h3>
+
 {{!-- Display table with all spells --}}
 <table id="instances-table">
     {{!-- Add table headers based on data --}}
@@ -38,48 +44,91 @@
 <script src="./js/delete_instance.js"></script>
 
 {{!-- ADD INSTANCE FORM --}}
-<h2>Add Spell Instance</h2>
-<p>To add a new instance, search for a spell and the wizard who used it. Add any notes and click submit!</p>
-<form id="add-instance-form-ajax">
-    {{!-- Select wizard --}}
-    <label for="instances-wizards-option">Search wizard:</label>
-    <input 
-    id="instances-wizards-option" 
-    list="instances-wizards-option-datalist"
-    name="instances-wizards-option"
-    type="text"
-    placeholder="Search wizard">
+<div class="modal-container" id="add-instance-modal-container">
+  <div class="add-container" id="add-instance-container">
+    <div class="close-modal" id="close-add-instance-container">
+      <img src="/images/close-icon.png" alt="close icon"/>
+    </div>
 
-    <datalist id="instances-wizards-option-datalist">
-        <option value=""></option>
-        {{#each wizards}}
-        <option value="{{this.wizard_name}}"></option>
-        {{/each}}
-    </datalist>
+    <h2>Add Spell Instance</h2>
+    <form id="add-instance-form-ajax" class="add-form">
+        {{!-- Select wizard --}}
+        <div class="form-input-group">
+            <label for="instances-wizards-option">Search wizard:</label>
+            <input 
+            id="instances-wizards-option" 
+            list="instances-wizards-option-datalist"
+            name="instances-wizards-option"
+            type="text"
+            placeholder="Search wizard">
 
-    {{!-- Select Spell --}}
-    <label for="instances-spells-option">Search Spell:</label>
-    <input 
-    id="instances-spells-option"
-    list="instances-spells-option-datalist"
-    name="instances-spells-option" 
-    type="text"
-    placeholder="Search spell">
+            <datalist id="instances-wizards-option-datalist">
+                <option value=""></option>
+                {{#each wizards}}
+                <option value="{{this.wizard_name}}"></option>
+                {{/each}}
+            </datalist>
+        </div>
+        
+        {{!-- Select Spell --}}
+        <div class="form-input-group">
+            <label for="instances-spells-option">Search Spell:</label>
+            <input 
+            id="instances-spells-option"
+            list="instances-spells-option-datalist"
+            name="instances-spells-option" 
+            type="text"
+            placeholder="Search spell">
 
-    <datalist id="instances-spells-option-datalist">
-        <option value=""></option>
-        {{#each spells}}
-        <option value="{{this.spell_name}}"></option>
-        {{/each}}
-    </datalist>
+            <datalist id="instances-spells-option-datalist">
+                <option value=""></option>
+                {{#each spells}}
+                <option value="{{this.spell_name}}"></option>
+                {{/each}}
+            </datalist>
+        </div>
 
-    {{!-- Add Notes --}}
-    <label for="input-instance-notes">Notes:</label>
-    <input type="text" name="input-instance-notes" id="input-instance-notes" placeholder="occured on..."/>
+        {{!-- Add Notes --}}
+        <div class="form-input-group">
+            <label for="input-instance-notes">Notes:</label>
+            <input type="text" name="input-instance-notes" id="input-instance-notes" placeholder="occured on..."/>
+        </div>
+        
 
-    <input type="Submit"/>
-</form>
+        <input type="Submit" class="submit-button"/>
+    </form>
+  </div>
+</div>
 
 <script src="./js/add_instance.js"></script>
+
+<script>
+  let modal = document.getElementById("add-instance-modal-container");
+
+  // Get the button that opens the modal
+  var openBtn = document.getElementById("add-instance-btn");
+
+  // Get the <span> element that closes the modal
+  var closeBtn = document.getElementById("close-add-instance-container")
+
+  // When the user clicks the button, open the modal 
+  openBtn.onclick = function() {
+    modal.style.display = "flex";
+    document.body.classList.add("no-scroll")
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.classList.remove("no-scroll")
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+</script>
 
 

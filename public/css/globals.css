@@ -82,7 +82,7 @@ h5 {
 
 .tagline {
   background-color: var(--muted-navy);
-  margin: 2% 0;
+  margin-top: 5%;
   text-align: left;
   justify-self: flex-start;
   align-self: flex-start;
@@ -253,8 +253,9 @@ table {
   display: table;
   background-color: var(--muted-navy);
   border: var(--gryffindor-yellow) 0.1rem solid;
-
   border-collapse: collapse;
+
+  margin-bottom: 10vw;
 }
 
 thead {
@@ -468,8 +469,5 @@ th {
   }
   nav > ul {
     font-size: 2rem;
-  }
-  table {
-    margin: 0 auto;
   }
 }
