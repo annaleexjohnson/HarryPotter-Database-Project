@@ -28,23 +28,17 @@
 
     {{!-- Header section --}}
     <thead>
-
-        {{!-- For just the first row, we print each key of the row object as a header cell so we
-        know what each column means when the page renders --}}
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>Type ID</th>
+            <th>Type Name</th>
+            <th>Type Description</th>
             <th>Delete</th>
         </tr>
     </thead>
 
     {{!-- Body section --}}
     <tbody>
-
-        {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+        {{!-- print each row in the Types table --}}
         {{#each data}}
         <tr>
             <td>{{this.type_id}}</td>
@@ -60,15 +54,15 @@
 
 <script src="/js/delete_type.js"></script>
 
-{{! Form to add a record to the table  }}
+{{! Form to add a new type to the table  }}
 <h2>Add a new spell type here</h2>
 <p>To add a new type, please enter their information below and click 'Submit'!</p>
 <form id="add-type-form-ajax">
   <label for="input-type-name">Type Name: </label>
-  <input type="text" name="input-type-name" id="input-type-name" />
+  <input type="text" name="input-type-name" id="input-type-name" placeholder="Computer science"/>
 
   <label for="input-type-desc">Type Description: </label>
-  <input type="text" name="input-type-desc" id="input-type-desc" />
+  <input type="text" name="input-type-desc" id="input-type-desc" placeholder="A type of magic used with computers"/>
 
   <input type="submit" />
 </form>
