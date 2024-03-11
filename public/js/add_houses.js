@@ -45,8 +45,8 @@ addPersonForm.addEventListener("submit", function (e) {
   // Tell our AJAX request how to resolve
   xhttp.onreadystatechange = () => {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
-      // Add the new data to the table
-      addRowToTable(xhttp.response);
+      window.location.href = `/houses`;
+      window.alert("Added house!");
 
       // Clear the input fields for another transaction
       inputHouseName.value = "";
@@ -59,36 +59,3 @@ addPersonForm.addEventListener("submit", function (e) {
   // Send the request and wait for the response
   xhttp.send(JSON.stringify(data));
 });
-
-// Creates a single row from an Object representing a single record from
-// bsg_people
-addRowToTable = (data) => {
-  // Get a reference to the current table on the page and clear it out.
-  let currentTable = document.getElementById("house-table");
-
-  // Get the location where we should insert the new row (end of table)
-  let newRowIndex = currentTable.rows.length;
-
-  // Get a reference to the new row from the database query (last object)
-  let parsedData = JSON.parse(data);
-  let newRow = parsedData[parsedData.length - 1];
-
-  // Create a row and 4 cells
-  let row = document.createElement("TR");
-  let idCell = document.createElement("TD");
-  let houseNameCell = document.createElement("TD");
-  let houseFounderCell = document.createElement("TD");
-
-  // Fill the cells with correct data
-  idCell.innerText = newRow.house_id;
-  houseNameCell.innerText = newRow.house_name;
-  houseFounderCell.innerText = newRow.house_founder;
-
-  // Add the cells to the row
-  row.appendChild(idCell);
-  row.appendChild(houseNameCell);
-  row.appendChild(houseFounderCell);
-
-  // Add the row to the table
-  currentTable.appendChild(row);
-};

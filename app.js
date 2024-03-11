@@ -632,20 +632,7 @@ app.post("/add-house-ajax", function (req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      // If there was no error, perform a SELECT * on bsg_people
-      query2 = `SELECT * FROM Houses;`;
-      db.pool.query(query2, function (error, rows, fields) {
-        // If there was an error on the second query, send a 400
-        if (error) {
-          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-          console.log(error);
-          res.sendStatus(400);
-        }
-        // If all went well, send the results of the query back.
-        else {
-          res.send(rows);
-        }
-      });
+      return res.sendStatus(200);
     }
   });
 });
@@ -655,7 +642,6 @@ app.delete("/delete-house-ajax", function (req, res) {
   let houseID = data.house_id;
 
   let deleteHouse = `DELETE FROM Houses WHERE house_id = ${houseID};`;
-  console.log(deleteHouse);
 
   db.pool.query(deleteHouse, function (err, rows) {
     if (err) {
