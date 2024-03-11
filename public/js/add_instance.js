@@ -16,6 +16,11 @@ addInstanceForm.addEventListener("submit", function (e) {
   let spellNameValue = inputSpellName.value;
   let notesValue = inputNotes.value;
 
+  // sanitize notes
+  const sanitizeNotes = notesValue[0].toUpperCase() + notesValue.substring(1);
+
+  notesValue = sanitizeNotes;
+
   // Put our data we want to send in a javascript object
   let data = {
     wizard_name: wizardNameValue,
