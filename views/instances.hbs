@@ -30,12 +30,16 @@
         <td>{{this.wizard_name}}</td>
         <td>{{this.notes}}</td>  
         <td>
-            <a href="/updateInstance/{{this.instance_id}}">
-                <button>Edit</button>
-            </a>
+          <a href="/updateInstance/{{this.instance_id}}">
+            <div class="icon-container">
+              <img src="/images/edit-icon.png"/>
+            </div>
+          </a>
         </td>
         <td>
-            <button onclick="deleteInstance({{this.instance_id}})">Delete</button>
+          <div class="icon-container" onclick="deleteInstance({{this.instance_id}})">
+              <img src="/images/delete-icon.png"/>
+            </div>
         </td>
     </tr>
     {{/each}}
