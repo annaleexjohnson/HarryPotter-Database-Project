@@ -630,6 +630,22 @@ app.post("/add-house-ajax", function (req, res) {
   });
 });
 
+app.delete("/delete-house-ajax", function (req, res) {
+  let data = req.body;
+  let houseID = data.house_id;
+
+  let deleteHouse = `DELETE FROM Houses WHERE house_id = ${houseID};`;
+
+  db.pool.query(deleteHouse, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(400);
+    } else {
+      return res.sendStatus(204);
+    }
+  });
+});
+
 /* 
 *******************************
   TYPES PAGE

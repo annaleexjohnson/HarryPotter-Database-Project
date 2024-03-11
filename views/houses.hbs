@@ -37,6 +37,7 @@
                 {{@key}}
             </th>
             {{/each}}
+            <th>Delete</th>
         </tr>
     </thead>
 
@@ -49,10 +50,14 @@
             <td>{{this.house_id}}</td>
             <td>{{this.house_name}}</td>
             <td>{{this.house_founder}}</td>
+            <td><button onclick="deleteHouse({{this.house_id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+
+<script src="./js/delete_house.js"></script>
+
 
 {{!-- Form to add a record to the table  --}}
 <h2>Adding a House</h2>
@@ -68,4 +73,4 @@
 </form>
 
 {{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
-<script src="./js/add_houses.js"></script>
+<script src="/js/add_houses.js"></script>
