@@ -1,0 +1,118 @@
+/* Harry Potter Font */
+@font-face {
+  font-family: HarryP;
+  src: url("../fonts/harry_p/HARRYP__.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Color Variables */
+:root {
+  --gryffindor-red: #740001;
+  --gryffindor-yellow: #eeba30;
+  --slytherin-green: #2a623d;
+  --slytherin-silver: #aaaaaa;
+  --ravenclaw-blue: #222f5b;
+  --ravenclaw-gold: #946b2d;
+  --hufflepuff-canary: #f0c75e;
+  --hufflepuff-brown: #372e29;
+  --muted-navy: #27363f;
+  --pure-gold: #bf9b30;
+  --charcoal: #1e1e1e;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0 10vw 5vw 10vw;
+  font-size: 1.25rem;
+  font-family: "Exo 2", sans-serif;
+  background-color: #27363f;
+  background-image: url("../images/bg-image.avif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+}
+
+h1 {
+  font-family: HarryP, serif;
+  color: white;
+  text-align: center;
+  color: var(--hufflepuff-canary);
+  letter-spacing: 0.2rem;
+  font-size: 4rem;
+  line-height: 2.75rem;
+  margin: 2vw 0;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Bigelow Rules", serif;
+  letter-spacing: 0.1rem;
+  font-size: 2.5rem;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--gryffindor-yellow);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+/* ------ Media Queries ------ */
+/* (based on Bootstrap Breakpoints) */
+
+/* xsmall */
+@media only screen and (max-width: 575px) {
+}
+
+/* small */
+@media only screen and (min-width: 576px) {
+}
+
+/* medium */
+@media only screen and (min-width: 768px) {
+}
+
+/* large */
+@media only screen and (min-width: 992px) {
+  h1 {
+    font-size: 5rem;
+    letter-spacing: 0.3rem;
+  }
+
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-size: 3rem;
+  }
+
+  input,
+  select {
+    margin-bottom: 2vw;
+  }
+}
+
+/* xlarge */
+@media only screen and (min-width: 1200px) {
+}
+
+/* xxlarge */
+@media only screen and (min-width: 1400) {
+}
