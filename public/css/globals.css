@@ -38,6 +38,7 @@ body {
   flex-direction: column;
   align-items: center;
   margin: 0 10vw 5vw 10vw;
+  padding-bottom: 10vw;
   font-size: 1.25rem;
   font-family: "Exo 2", sans-serif;
   background-color: #27363f;
@@ -254,10 +255,6 @@ table {
   background-color: var(--muted-navy);
   border: var(--gryffindor-yellow) 0.1rem solid;
   border-collapse: collapse;
-}
-
-.main-table {
-  margin-bottom: 10vw;
 }
 
 thead {
