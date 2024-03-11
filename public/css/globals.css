@@ -42,7 +42,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: white;
+  color: aliceblue;
 }
 
 h1 {
@@ -54,12 +54,14 @@ h1 {
   font-size: 4rem;
   line-height: 2.75rem;
   margin: 2vw 0;
+  text-align: center;
 }
 
 h2,
 h3,
 h4,
 h5 {
+  text-align: center;
   font-family: "Bigelow Rules", serif;
   letter-spacing: 0.1rem;
   font-size: 2.5rem;
@@ -98,6 +100,22 @@ nav > ul > li {
   color: var(--gryffindor-yellow);
 }
 
+/* OVERVIEW PAGE */
+.overview-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3vw;
+  padding: 5vw;
+  margin: 5vw 0;
+  background-color: var(--muted-navy);
+  border: var(--gryffindor-yellow) 0.1rem solid;
+  line-height: 2rem;
+}
+
 /* ------ Media Queries ------ */
 /* (based on Bootstrap Breakpoints) */
 
@@ -118,6 +136,7 @@ nav > ul > li {
   h1 {
     font-size: 5rem;
     letter-spacing: 0.3rem;
+    line-height: 3.5rem;
   }
 
   h2,
@@ -134,10 +153,20 @@ nav > ul > li {
 
 /* xlarge */
 @media only screen and (min-width: 1200px) {
+  .overview-container {
+    gap: 1.5vw;
+  }
+
+  .overview-container > p {
+    max-width: 80%;
+  }
 }
 
 /* xxlarge */
 @media only screen and (min-width: 1400px) {
+  h1 {
+    letter-spacing: 0.5rem;
+  }
   nav > ul {
     font-size: 2rem;
   }
