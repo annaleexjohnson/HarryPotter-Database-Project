@@ -501,28 +501,13 @@ app.post("/add-instance-ajax", function (req, res) {
       '${notes}'	
   );`;
 
-  let selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
-  FROM Spell_Instances SI
-  JOIN Spells S ON SI.spell_id = S.spell_id
-  JOIN Wizards W ON SI.wizard_id = W.wizard_id
-  WHERE W.wizard_name= '${wizardName}' and S.spell_name = '${spellName}';`;
-
   // add instance
   db.pool.query(addInstance, function (err, rows) {
     if (err) {
       console.log(err);
       res.sendStatus(400);
     } else {
-      // get all instances
-      db.pool.query(selectInstance, function (err, rows) {
-        if (err) {
-          console.log(err);
-          res.sendStatus(400);
-        } else {
-          console.log(rows);
-          res.send(rows);
-        }
-      });
+      res.sendStatus(200);
     }
   });
 });
