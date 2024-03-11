@@ -685,18 +685,7 @@ app.post("/add-type-ajax", function (req, res) {
       console.log(error);
       res.sendStatus(400);
     } else {
-      query2 = `SELECT * FROM Types;`;
-      db.pool.query(query2, function (error, rows, fields) {
-        // If there was an error on the second query, send a 400
-        if (error) {
-          console.log(error);
-          res.sendStatus(400);
-        }
-        // If all went well, send the results of the query back.
-        else {
-          res.send(rows);
-        }
-      });
+      res.sendStatus(200);
     }
   });
 });
