@@ -118,7 +118,8 @@ nav > ul > li {
 
 /* FORM STYLING */
 input,
-select {
+select,
+textarea {
   font-family: inherit;
   width: 100%;
   border: var(--gryffindor-yellow) 0.2rem solid;
@@ -184,7 +185,8 @@ label {
   border: var(--gryffindor-yellow) 0.1rem solid;
 }
 
-.add-form {
+.add-form,
+.update-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -315,6 +317,81 @@ th {
   list-style-type: none;
 }
 
+/* UPDATE SPELL PAGE */
+
+.update-spell-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5vw;
+  background-color: var(--muted-navy);
+  border: var(--gryffindor-yellow) 0.1rem solid;
+  width: 100%;
+  height: fit-content;
+  padding: 5vw;
+  margin: 5vw 0;
+}
+
+.update-spell-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 2vw;
+}
+
+.form-input-group > textarea {
+  display: block;
+  width: 100%;
+  font-family: inherit;
+}
+
+.update-button {
+  background-color: var(--hufflepuff-canary);
+  border: var(--ravenclaw-gold) 0.4rem solid;
+  color: var(--muted-navy);
+
+  width: 10rem;
+  height: 4rem;
+
+  font-size: 2rem;
+  font-family: HarryP;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.update-button:hover {
+  color: aliceblue;
+}
+
+.update-button.remove-type {
+  background-color: var(--gryffindor-red);
+  color: aliceblue;
+}
+
+.update-button.remove-type:hover {
+  color: var(--gryffindor-yellow);
+}
+
+.update-type-btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
+}
+
+#add-type-btn {
+  background-color: var(--ravenclaw-blue);
+  color: aliceblue;
+}
+
+#add-type-btn:hover {
+  color: var(--gryffindor-yellow);
+}
+
 /* ------ Media Queries ------ */
 /* (based on Bootstrap Breakpoints) */
 
@@ -350,6 +427,16 @@ th {
 
   nav {
     margin: 5vw 0;
+  }
+
+  .update-spell-container {
+    flex-direction: row;
+    margin: 2.5vw 5vw;
+  }
+  .update-spell-form-container {
+    justify-content: flex-start;
+    border: var(--ravenclaw-gold) 0.4rem solid;
+    padding: 2vw;
   }
 }
 

@@ -1,7 +1,6 @@
 <!-- update-spells.hbs -->
 
 <h1>Update {{spell.spell_name}}</h1>
-<p>Use the form below to update {{spell.spell_name}}.</p>
 {{!-- Display table for current spell --}}
 <table id="update-spell-table">
     {{!-- Add table headers based on data --}}
@@ -20,67 +19,130 @@
         <td>{{spell.spell_name}}</td>
         <td>{{spell.spell_description}}</td>
         <td>
-        {{#each spellType as |tos|}}
-                {{tos.t_type_name}}
-        {{/each}}
-        </td>      
+            <ul>
+                {{#each spellType as |tos|}}
+                    <li class="spell-type">
+                        {{tos.t_type_name}}
+                    </li>
+                {{/each}}
+            </ul>
+        </td>    
     </tr>
 </table>
 
-<h3>Update Spell Name and Description</h3>
-<form id="update-spell-form-ajax">
-    <label>Spell ID:</label>
-    <span id="update-spell-id">{{spell.spell_id}}</span>
-    <label for="update-spell-name">Spell Name:</label>
-    <input id="update-spell-name" name="update-spell-name" type="text" value="{{spell.spell_name}}"/>
+<div class="update-spell-container">
+    {{!-- UPDATE NAME & DESCRIPTION --}}
+    <div class="update-spell-form-container">
+        <h3 >Edit Spell Name and Description</h3>
+        <span><strong>Spell ID:</strong></span>
+        <span id="update-spell-id">{{spell.spell_id}}</span>
+        <form id="update-spell-form-ajax" class="update-form">
+            <div class="form-input-group">
+                <label for="update-spell-name">Spell Name:</label>
+                <input id="update-spell-name" name="update-spell-name" type="text" value="{{spell.spell_name}}"/>
+            </div>
 
-    <label>Spell Description:</label>
-    <textarea id="update-spell-desc" name="update-spell-desc" type="text" >{{spell.spell_description}}</textarea>
+            <div class="form-input-group">
+                <label>Spell Description:</label>
+                <textarea id="update-spell-desc" name="update-spell-desc" type="text" >{{spell.spell_description}}</textarea>
+            </div>
 
-    <input type="submit" value="Update">
-</form>
+            <input type="submit" value="Update" class="update-button">
+        </form>
+    </div>
+
+    {{!-- UPDATE/DELETE TYPE --}}
+    <div class="update-spell-form-container">
+        <h3>Edit Spell Type(s)</h3>
+        {{!-- add type button --}}
+        <div class="add-button-container" >
+            <button id="add-type-btn">Add Type</button>
+        </div>
+        {{!-- for each type create form to update type --}}
+        {{#each spellType as |spell|}}
+            {{!-- render empty div if there's a null type --}}
+            {{#if (eq this.t_type_name NULL)}}
+                <div></div>
+            {{else}}
+            <p><strong>Current Type:</strong> {{this.t_type_name}}</p>
+
+            <form id="update-spell-type-form-ajax-{{this.ts_spell_id}}-{{this.ts_type_id}}"
+            class="update-form"
+            onsubmit="updateSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})">
+                <div class="form-input-group">
+                    <select class="update-spell-type" >
+                        {{#each ../types as |type|}}
+                            {{#if (eq type.type_id spell.ts_type_id)}}
+                            <option class="initial-spell-type" value="{{type.type_id}}" selected>{{type.type_name}}</option>
+                            {{else}}
+                            <option value="{{type.type_id}}" >{{type.type_name}}</option>
+                            {{/if}}
+                        {{/each}}
+                    </select>  
+                </div>
+                
+                <div class="update-type-btn-container">
+                    <button onclick="deleteSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})" class="update-button remove-type">Remove Type</button>
+                    <input type="submit" value="Update" class="update-button"/>
+                </div>
+
+            </form>
+            {{/if}}
+        {{/each}}
+    </div>
+</div>
 
 <script src="/js/update_spell.js"></script>
-
-<h3>Update or Delete Spell Type</h3>
-{{!-- for each type create form to update type --}}
-{{#each spellType as |spell|}}
-    {{!-- render empty div if there's a null type --}}
-    {{#if (eq this.t_type_name NULL)}}
-        <div></div>
-    {{else}}
-    <p > Current Type: {{this.t_type_name}}</p>
-
-    <form id="update-spell-type-form-ajax-{{this.ts_spell_id}}-{{this.ts_type_id}}"
-    onsubmit="updateSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})">
-        <select class="update-spell-type" >
-            {{#each ../types as |type|}}
-                {{#if (eq type.type_id spell.ts_type_id)}}
-                <option class="initial-spell-type" value="{{type.type_id}}" selected>{{type.type_name}}</option>
-                {{else}}
-                <option value="{{type.type_id}}" >{{type.type_name}}</option>
-                {{/if}}
-            {{/each}}
-        </select>
-        <input type="submit" value="Update"/>
-    </form>
-    <button onclick="deleteSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})">Remove {{this.t_type_name}} Type</button>
-    {{/if}}
-{{/each}}
-
 <script src="/js/update_spell_type.js"></script>
 <script src="/js/delete_spell_type.js"></script>
 
-<h3>Add Spell Type to {{spell.spell_name}}</h3>
-<form id="add-spell-type-form-ajax">
-    <select id="add-spell-type" >
-        {{#each types as |type|}}
-            <option value="{{type.type_id}}" >{{type.type_name}}</option>
-        {{/each}}
-    </select>
-    <input type="submit" value="Add Type"/>
-</form>
+
+<div class="modal-container" id="add-type-modal-container">
+  <div class="add-container" id="add-type-container">
+    <div class="close-modal" id="close-add-type-container">
+      <img src="/images/close-icon.png" alt="close icon"/>
+    </div>
+    {{!-- ADD TYPE TO SPELL --}}
+    <h3>Add Spell Type to {{spell.spell_name}}</h3>
+    <form id="add-spell-type-form-ajax" class="add-form">
+        <select id="add-spell-type" >
+            {{#each types as |type|}}
+                <option value="{{type.type_id}}" >{{type.type_name}}</option>
+            {{/each}}
+        </select>
+        <input type="submit" value="Add Type" class="update-button"/>
+    </form>
+  </div>
+</div>
 
 <script src="/js/add_spell_type.js"></script>
+<script>
+  let modal = document.getElementById("add-type-modal-container");
+
+  // Get the button that opens the modal
+  var openBtn = document.getElementById("add-type-btn");
+
+  // Get the <span> element that closes the modal
+  var closeBtn = document.getElementById("close-add-type-container")
+
+  // When the user clicks the button, open the modal 
+  openBtn.onclick = function() {
+    modal.style.display = "flex";
+    document.body.classList.add("no-scroll")
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.classList.remove("no-scroll")
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+</script>
 
 
