@@ -1,8 +1,14 @@
+/* 
+*******************************
+  UPDATE WIZARD JS
+*******************************
+*/
+
 // Get the objects we need to modify
-let addPersonForm = document.getElementById("add-wizard-form-ajax");
+let addWizardForm = document.getElementById("add-wizard-form-ajax");
 
 // Modify the objects we need
-addPersonForm.addEventListener("submit", function (e) {
+addWizardForm.addEventListener("submit", function (e) {
   // Prevent the form from submitting
   e.preventDefault();
 
