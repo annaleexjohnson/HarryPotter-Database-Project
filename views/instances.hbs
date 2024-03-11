@@ -23,18 +23,17 @@
     </ul>
 </nav>
 
-<h1>Spells Instances!</h1>
-<p>you can view wizards who have used each spell in this page!</p>
+<h1>List of Spells Instances</h1>
+<p>View a list of wizards who have used each spell, or add a new instance where a spell was used.</p>
 {{!-- Display table with all spells --}}
 <table id="instances-table">
     {{!-- Add table headers based on data --}}
     <thead>
         <tr>
-            {{#each instances.[0]}}
-                <th>
-                {{@key}}
-                </th>
-            {{/each}}
+            <th>Instance ID</th>
+            <th>Spell Name</th>
+            <th>Wizard Name</th>
+            <th>Notes</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
