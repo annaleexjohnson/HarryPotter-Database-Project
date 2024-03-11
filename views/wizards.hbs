@@ -35,11 +35,10 @@
     {{! For just the first row, we print each key of the row object as a header cell so we
         know what each column means when the page renders }}
     <tr>
-      {{#each data.[0]}}
-        <th>
-          {{@key}}
-        </th>
-      {{/each}}
+      <th>Wizard ID</th>
+      <th>Wizard Name</th>
+      <th>Wizard's House</th>
+      <th>Graduated?</th>
       <th>Edit</th>
       <th>Delete</th>
     </tr>
@@ -53,8 +52,8 @@
       <tr>
         <td>{{this.wizard_id}}</td>
         <td>{{this.wizard_name}}</td>
-        <td>{{this.wizard_graduated}}</td>        
         <td>{{this.house_name}}</td>
+        <td>{{this.wizard_graduated}}</td>        
         <td>
           <a href="/updateWizard/{{this.wizard_id}}">
             <button>Edit</button>

@@ -163,6 +163,26 @@ app.put("/put-wizard-ajax", function (req, res) {
   });
 });
 
+// DELETE WIZARD ROW
+app.delete("/delete-wizard-ajax", function (req, res) {
+  let data = req.body;
+  let wizardID = data.wizard_id;
+
+  // deleting from spells will delete on cascade
+  let deleteWizard = `DELETE FROM Wizards WHERE wizard_id = ${wizardID};`;
+
+  // delete from spells table
+  db.pool.query(deleteWizard, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
 /* 
 *******************************
   SPELLS PAGE
@@ -635,6 +655,7 @@ app.delete("/delete-house-ajax", function (req, res) {
   let houseID = data.house_id;
 
   let deleteHouse = `DELETE FROM Houses WHERE house_id = ${houseID};`;
+  console.log(deleteHouse);
 
   db.pool.query(deleteHouse, function (err, rows) {
     if (err) {
