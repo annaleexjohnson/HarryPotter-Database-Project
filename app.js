@@ -529,6 +529,61 @@ app.delete("/delete-instance-ajax/", function (req, res) {
   });
 });
 
+// RENDER UPDATE SPELL PAGE
+app.get("/updateInstance/:instanceID", function (req, res) {
+  let instanceID = parseInt(req.params.instanceID);
+  // select instance based on id
+  let selectInstance = `SELECT SI.instance_id, S.spell_name, W.wizard_name, SI.notes
+  FROM Spell_Instances SI
+  JOIN Spells S ON SI.spell_id = S.spell_id
+  JOIN Wizards W ON SI.wizard_id = W.wizard_id
+  WHERE SI.instance_id = ${instanceID};`;
+  // get all wizards and spells
+  let selectWizards = `SELECT * FROM Wizards;`;
+  let selectSpells = `SELECT * FROM Spells;`;
+
+  // select instance
+  db.pool.query(selectInstance, function (err, rows, fields) {
+    let Instance = rows[0];
+
+    // select wizards
+    db.pool.query(selectWizards, function (err, rows, fields) {
+      let Wizards = rows;
+
+      // select spells
+      db.pool.query(selectSpells, function (err, rows, fields) {
+        return res.render("../views/updateInstance.hbs", {
+          instance: Instance,
+          wizards: Wizards,
+          spells: rows,
+        });
+      });
+    });
+  });
+});
+
+// UPDATE INSTANCE ROW
+app.put("/put-instance-ajax", function (req, res) {
+  let data = req.body;
+  let instanceID = data.instance_id;
+  let wizardName = data.wizard_name;
+  let spellName = data.spell_name;
+
+  let updateInstance = `UPDATE Spell_Instances SET
+	  spell_id = (SELECT spell_id FROM Spells WHERE spell_name = '${spellName}'),
+    wizard_id = (SELECT wizard_id FROM Wizards WHERE wizard_name = '${wizardName}')
+    WHERE instance_id = ${instanceID};`;
+
+  db.pool.query(updateInstance, function (err, rows) {
+    if (err) {
+      console.log(err);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
 /*
 *********************************
 HOUSES PAGE
@@ -623,7 +678,7 @@ app.post("/add-type-ajax", function (req, res) {
   });
 });
 
-// DELETE SPELL ROW
+// DELETE TYPE ROW
 app.delete("/delete-type-ajax", function (req, res) {
   let data = req.body;
   let typeID = data.type_id;

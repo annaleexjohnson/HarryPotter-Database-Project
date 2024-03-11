@@ -1,0 +1,89 @@
+<nav>
+    <ul>
+         <li>
+            <a href="/">Home</a>
+        </li>
+        <li>
+            <a href="/wizards">Wizards</a>
+        </li>
+        <li>
+            <a href="/houses">Houses</a>
+        </li>
+        <li>
+            <a href="/spells">Spells</a>
+        </li>
+        <li>
+            <a href="/instances">Spell Instances</a>
+        </li>
+        <li>
+            <a href="/types">Types</a>
+        </li>
+       
+    </ul>
+</nav>
+
+<h2>Update Spell Instance</h2>
+<p>To update the spell instance, search for a spell and the wizard who used it. Update any notes and click submit!</p>
+
+<table id="instance-table-{{instance.instance_id}}">
+    {{!-- Add table headers based on data --}}
+    <thead>
+        <tr>
+            {{#each instance}}
+                <th>
+                {{@key}}
+                </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Table Body Section --}}
+    <tr>
+        <td id="update-instance-id">{{instance.instance_id}}</td>
+        <td>{{instance.spell_name}}</td>
+        <td>{{instance.wizard_name}}</td>
+        <td>{{instance.notes}}</td>  
+    </tr>
+</table>
+
+<form id="update-instance-form-ajax">
+    {{!-- Select wizard --}}
+    <label for="update-wizards-option">Search wizard:</label>
+    <input 
+    id="update-wizards-option" 
+    list="update-wizards-option-datalist"
+    name="update-wizards-option"
+    type="text"
+    placeholder="{{instance.wizard_name}}">
+
+    <datalist id="update-wizards-option-datalist">
+        <option value=""></option>
+        {{#each wizards}}
+            <option value="{{this.wizard_name}}"></option>
+        {{/each}}
+    </datalist>
+
+    {{!-- Select Spell --}}
+    <label for="update-spells-option">Search Spell:</label>
+    <input 
+    id="update-spells-option"
+    list="update-spells-option-datalist"
+    name="update-spells-option" 
+    type="text"
+    placeholder="{{instance.spell_name}}">
+
+    <datalist id="update-spells-option-datalist">
+        <option value=""></option>
+        {{#each spells}}
+            <option value="{{this.spell_name}}"></option>
+    {{/each}}
+    </datalist>
+
+    {{!-- Add Notes --}}
+    <label for="input-instance-notes">Notes:</label>
+    <input type="text" name="input-instance-notes" id="input-instance-notes" placeholder="{{instance.notes}}"/>
+
+    <input type="Submit"/>
+</form>
+
+<script src="/js/update_instance.js"></script>

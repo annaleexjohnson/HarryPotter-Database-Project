@@ -48,7 +48,9 @@
         <td>{{this.wizard_name}}</td>
         <td>{{this.notes}}</td>  
         <td>
-            <button>Edit</button>
+            <a href="/updateInstance/{{this.instance_id}}">
+                <button>Edit</button>
+            </a>
         </td>
         <td>
             <button onclick="deleteInstance({{this.instance_id}})">Delete</button>
