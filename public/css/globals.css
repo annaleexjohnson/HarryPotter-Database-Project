@@ -74,6 +74,30 @@ a {
   font-family: inherit;
 }
 
+/* NAV BAR STYLES */
+nav {
+  width: 100%;
+  max-width: 100vw;
+  margin: 10vw 0;
+}
+nav > ul {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2vw;
+  font-size: 1.5rem;
+}
+
+nav > ul > li {
+  list-style-type: none;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  cursor: pointer;
+  color: var(--gryffindor-yellow);
+}
+
 /* ------ Media Queries ------ */
 /* (based on Bootstrap Breakpoints) */
 
@@ -103,9 +127,8 @@ a {
     font-size: 3rem;
   }
 
-  input,
-  select {
-    margin-bottom: 2vw;
+  nav {
+    margin: 5vw 0;
   }
 }
 
@@ -114,5 +137,8 @@ a {
 }
 
 /* xxlarge */
-@media only screen and (min-width: 1400) {
+@media only screen and (min-width: 1400px) {
+  nav > ul {
+    font-size: 2rem;
+  }
 }
