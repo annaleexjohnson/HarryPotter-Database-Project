@@ -304,6 +304,17 @@ th {
   line-height: 2rem;
 }
 
+/* SPELLS PAGE */
+.spell-desc {
+  max-width: 20vw;
+  text-align: left;
+  padding: 2vw;
+}
+
+.spell-type {
+  list-style-type: none;
+}
+
 /* ------ Media Queries ------ */
 /* (based on Bootstrap Breakpoints) */
 

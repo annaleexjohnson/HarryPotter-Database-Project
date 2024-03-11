@@ -1,7 +1,13 @@
 <!-- spells.hbs -->
 
 <h1>Spells Information!</h1>
-<p>you can view and add new spells in this page!</p>
+
+<div class="add-button-container" >
+  <button id="add-spell-btn">Add Spell</button>
+</div>
+
+<h3 class="tagline">View and add new spells in this page</h3>
+
 {{!-- Display table with all spells --}}
 <table id="spell-table">
     {{!-- Add table headers based on data --}}
@@ -21,22 +27,32 @@
     <tr>
         <td>{{spell.spell_id}}</td>
         <td>{{spell.spell_name}}</td>
-        <td>{{spell.spell_description}}</td>
+        <td class="spell-desc">{{spell.spell_description}}</td>
 
         <td>
-        {{#each ../tos as |tos|}}
-            {{#if (eq tos.ts_spell_id spell.spell_id)}}
-                {{tos.t_type_name}}
-            {{/if}}
-        {{/each}}
+            <ul>
+                {{#each ../tos as |tos|}}
+                    {{#if (eq tos.ts_spell_id spell.spell_id)}}
+                        <li class="spell-type">
+                            {{tos.t_type_name}}
+                        </li>
+                    {{/if}}
+                {{/each}}
+            </ul>
         </td>
         
-        <td>
-            <a href="updateSpell/{{spell.spell_id}}">
-                <button>Edit</button>
-            </a>
+         <td>
+          <a href="updateSpell/{{spell.spell_id}}">
+            <div class="icon-container">
+              <img src="/images/edit-icon.png"/>
+            </div>
+          </a>
         </td>
-        <td><button onclick="deleteSpell( {{spell.spell_id}}, '{{spell.type_name}}')">Delete</button></td>
+        <td>
+          <div class="icon-container" onclick="deleteSpell( {{spell.spell_id}}, '{{spell.type_name}}')">
+              <img src="/images/delete-icon.png"/>
+            </div>
+        </td>
     </tr>
     {{/each}}
 </table>
@@ -44,29 +60,68 @@
 <script src="/js/update_spell.js"></script>
 <script src="./js/delete_spell.js"></script>
 
+<div class="modal-container" id="add-spell-modal-container">
+  <div class="add-container wizard" id="add-spell-container">
+    <div class="close-modal" id="close-add-spell-container">
+      <img src="/images/close-icon.png" alt="close icon"/>
+    </div>
+    {{!-- Add Spell Form --}}
+    <h2>Add a New Spell</h2>
+    <form id="add-spell-form-ajax" class="add-form">
+        {{!-- Add spell name --}}
+        <div class="form-input-group">
+            <label for="input-spell-name">Spell Name: </label>
+            <input type="text" name="input-spell-name" id="input-spell-name" placeholder="Structis Querio Langors"/>
+        </div>
+        {{!-- Add spell desc --}}
+        <div class="form-input-group">
+            <label for="input-spell-desc">Spell Description: </label>
+            <input type="text" name="input-spell-desc" id="input-spell-desc" placeholder="used to manage databases"/>
+        </div>
+        {{!-- Add spell type --}}
+        <div class="form-input-group">
+            <label for="input-spell-type">Spell Type: </label>
+            <select name="input-spell-type" id="input-spell-type">
+                {{#each types}}
+                <option value="{{this.type_id}}">{{this.type_name}}</option>
+                {{/each}}
+            </select>
+        </div>
+
+        <input type="submit" class="submit-button"/>
+    </form>
+  </div>
+</div>
 
 
-{{!-- Add Spell Form --}}
-<h2>Add a new spell here</h2>
-<p>To add a new spell, please enter the relevant information below and click 'Submit'!</p>
-<form id="add-spell-form-ajax">
-    {{!-- Add spell name --}}
-    <label for="input-spell-name">Spell Name: </label>
-    <input type="text" name="input-spell-name" id="input-spell-name" placeholder="Structis Querio Langors"/>
-    {{!-- Add spell desc --}}
-    <label for="input-spell-desc">Spell Description: </label>
-    <input type="text" name="input-spell-desc" id="input-spell-desc" placeholder="used to manage databases"/>
-    {{!-- Add spell type --}}
-    <label for="input-spell-type">Spell Type: </label>
-    <select name="input-spell-type" id="input-spell-type">
-        {{#each types}}
-        <option value="{{this.type_id}}">{{this.type_name}}</option>
-        {{/each}}
-    </select>
-
-    <input type="submit"/>
-</form>
 
 {{! Embed our javascript to handle the DOM manipulation and AJAX request }}
 <script src="./js/add_spell.js"></script>
+<script>
+  let modal = document.getElementById("add-spell-modal-container");
 
+  // Get the button that opens the modal
+  var openBtn = document.getElementById("add-spell-btn");
+
+  // Get the <span> element that closes the modal
+  var closeBtn = document.getElementById("close-add-spell-container")
+
+  // When the user clicks the button, open the modal 
+  openBtn.onclick = function() {
+    modal.style.display = "flex";
+    document.body.classList.add("no-scroll")
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.classList.remove("no-scroll")
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+</script>
