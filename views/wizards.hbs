@@ -40,6 +40,7 @@
           {{@key}}
         </th>
       {{/each}}
+      <th>Edit</th>
       <th>Delete</th>
     </tr>
   </thead>
@@ -54,6 +55,11 @@
         <td>{{this.wizard_name}}</td>
         <td>{{this.wizard_graduated}}</td>        
         <td>{{this.house_name}}</td>
+        <td>
+          <a href="/updateWizard/{{this.wizard_id}}">
+            <button>Edit</button>
+          </a>
+        </td>
         <td><button onclick="deleteWizard({{this.wizard_id}})">Delete</button></td>
       </tr>
     {{/each}}
