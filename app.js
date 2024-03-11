@@ -103,31 +103,15 @@ app.post("/add-wizard-ajax", function (req, res) {
     wizard_house = "NULL";
   }
 
-  console.log("wizard house:", wizard_house);
-
   // Create the query and run it on the database
   query1 = `INSERT INTO Wizards (wizard_name, wizard_graduated, wizard_house) VALUES ('${data.wizard_name}', ${wizard_graduated}, ${wizard_house})`;
   db.pool.query(query1, function (error, rows, fields) {
     // Check to see if there was an error
     if (error) {
-      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
       console.log(error);
       res.sendStatus(400);
     } else {
-      // If there was no error, perform a SELECT * on bsg_people
-      query2 = `SELECT Wizards.wizard_id, Wizards.wizard_name, Wizards.wizard_graduated, Houses.house_name FROM Wizards, Houses WHERE Wizards.wizard_house = Houses.house_id GROUP BY Wizards.wizard_name;`;
-      db.pool.query(query2, function (error, rows, fields) {
-        // If there was an error on the second query, send a 400
-        if (error) {
-          // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-          console.log(error);
-          res.sendStatus(400);
-        }
-        // If all went well, send the results of the query back.
-        else {
-          res.send(rows);
-        }
-      });
+      res.send(rows);
     }
   });
 });
