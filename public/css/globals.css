@@ -34,6 +34,9 @@ body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0 10vw 5vw 10vw;
   font-size: 1.25rem;
   font-family: "Exo 2", sans-serif;
@@ -43,6 +46,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   color: aliceblue;
+
+  min-height: 100vh;
 }
 
 h1 {
@@ -68,6 +73,17 @@ h5 {
   font-weight: 400;
   font-style: normal;
   color: var(--gryffindor-yellow);
+}
+
+.no-scroll {
+  position: relative;
+  overflow: hidden;
+}
+
+.tagline {
+  background-color: var(--muted-navy);
+  color: aliceblue;
+  margin: 2% 0;
 }
 
 a {
@@ -100,6 +116,178 @@ nav > ul > li {
   color: var(--gryffindor-yellow);
 }
 
+/* FORM STYLING */
+input,
+select {
+  font-family: inherit;
+  width: 100%;
+  border: var(--gryffindor-yellow) 0.2rem solid;
+  padding: 2%;
+}
+
+input:focus {
+  outline: none;
+  border: #55aaff 0.2rem solid;
+}
+
+label {
+  font-weight: bold;
+}
+
+.form-input-group {
+  width: 100%;
+}
+
+/* ADD FORM CONTAINER STYLING */
+.modal-container {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-modal {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5% 5% 0 0;
+  height: 2.5vw;
+  width: 2.5vw;
+}
+
+.close-modal img {
+  width: 100%;
+  height: 100%;
+}
+
+.close-modal:hover {
+  cursor: pointer;
+}
+
+.add-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  background-color: var(--muted-navy);
+  padding: 5vw;
+  margin: 5vw 0;
+  border: var(--gryffindor-yellow) 0.1rem solid;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2vw;
+}
+
+.add-button-container button {
+  padding: 2%;
+  background-color: var(--hufflepuff-canary);
+  border: var(--ravenclaw-gold) 0.4rem solid;
+  color: var(--muted-navy);
+
+  width: 10rem;
+  height: 3rem;
+
+  font-size: 2rem;
+  font-family: HarryP;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit-button {
+  padding: 2%;
+  background-color: var(--hufflepuff-canary);
+  border: var(--ravenclaw-gold) 0.4rem solid;
+  color: var(--muted-navy);
+
+  width: 10rem;
+  height: 3rem;
+
+  font-size: 2rem;
+  font-family: HarryP;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-button-container button:hover {
+  color: aliceblue;
+}
+.submit-button:hover {
+  color: aliceblue;
+}
+
+/* TABLE STYLING */
+
+table,
+thead,
+tr {
+  width: 100%;
+}
+
+table {
+  display: table;
+  background-color: var(--muted-navy);
+  border: var(--gryffindor-yellow) 0.1rem solid;
+
+  border-collapse: collapse;
+}
+
+thead {
+  width: 100%;
+  background-color: var(--charcoal);
+  color: aliceblue;
+  text-align: left;
+  padding: 1rem 0;
+  font-size: 1.25rem;
+}
+
+table tr:nth-child(even) {
+  background-color: var(--slytherin-silver);
+  color: var(--muted-navy);
+}
+
+td,
+th {
+  padding: 0.5rem 0;
+  text-align: center;
+  vertical-align: center;
+}
+
+.icon-container {
+  width: 100%;
+}
+
+.icon-container img {
+  height: 100%;
+  width: auto;
+  max-height: 2vw;
+}
+
+.icon-container img:hover {
+  cursor: pointer;
+}
+
 /* OVERVIEW PAGE */
 .overview-container {
   position: relative;
@@ -129,6 +317,9 @@ nav > ul > li {
 
 /* medium */
 @media only screen and (min-width: 768px) {
+  .add-container {
+    max-width: 50vw;
+  }
 }
 
 /* large */
@@ -160,6 +351,10 @@ nav > ul > li {
   .overview-container > p {
     max-width: 80%;
   }
+
+  .add-container {
+    max-width: 35vw;
+  }
 }
 
 /* xxlarge */
@@ -169,5 +364,9 @@ nav > ul > li {
   }
   nav > ul {
     font-size: 2rem;
+  }
+  table {
+    max-width: 80%;
+    margin: 0 auto;
   }
 }

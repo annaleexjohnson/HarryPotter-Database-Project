@@ -2,8 +2,12 @@
 
 
 <h1>Wizards</h1>
-<p>View and edit the current list of Hogwarts wizards and their information</p>
 
+<div class="add-button-container" >
+  <button id="add-wizard-btn">Add Wizard</button>
+</div>
+
+<h3 class="tagline">View and edit the current list of Hogwarts wizards</h3>
 {{! Create a table }}
 <table id="wizard-table">
 
@@ -34,10 +38,16 @@
         {{/if}}      
         <td>
           <a href="/updateWizard/{{this.wizard_id}}">
-            <button>Edit</button>
+            <div class="icon-container">
+              <img src="/images/edit-icon.png"/>
+            </div>
           </a>
         </td>
-        <td><button onclick="deleteWizard({{this.wizard_id}})">Delete</button></td>
+        <td>
+          <div class="icon-container" onclick="deleteWizard({{this.wizard_id}})">
+              <img src="/images/delete-icon.png"/>
+            </div>
+        </td>
       </tr>
     {{/each}}
   </tbody>
@@ -46,33 +56,75 @@
 <script src="./js/delete_wizard.js"></script>
 
 
+
 {{! Form to add a wizard to the table  }}
-<h2>Add a new wizard here</h2>
-<p>To add a new wizard, please enter their information below and click 'Submit'!</p>
-<form id="add-wizard-form-ajax">
-  <label for="input-wizard_name">Wizard Name: </label>
-  <input type="text" name="input-wizard_name" id="input-wizard_name" placeholder="Dumbledore"/>
+<div class="modal-container" id="add-wizard-modal-container">
+  <div class="add-container wizard" id="add-wizard-container">
+    <div class="close-modal" id="close-add-wizard-container">
+      <img src="/images/close-icon.png" alt="close icon"/>
+    </div>
+    <h2>Add a New Wizard</h2>
+    <form id="add-wizard-form-ajax" class="add-form">
+      <div class="form-input-group">
+        <label for="input-wizard_name">Wizard Name: </label>
+        <input type="text" name="input-wizard_name" id="input-wizard_name" placeholder="Dumbledore"/>
+      </div>
+      
+      <div class="form-input-group">
+        <label for="input-wizard_graduated">Graduated: </label>
+        <select name="input-wizard_graduated" id="input-wizard_graduated">
+          <option value="1">Yes</option>
+          <option value="0">No</option>   
+        </select>
+      </div>
 
-  <label for="input-wizard_graduated">Graduated: </label>
-  <select name="input-wizard_graduated" id="input-wizard_graduated">
-    <option value="1">Yes</option>
-    <option value="0">No</option>   
-  </select>
+      <div class="form-input-group">
+        <label for="input-wizard_house">House: </label>
+        {{! <input type="number" name="input-wizard_house" id="input-wizard_house"> }}
+        <select name="input-wizard_house" id="input-wizard_house">
+          <option value="">Select a House</option>
+          {{#each Houses}}
+            <option value="{{this.house_id}}">{{this.house_name}}</option>
+          {{/each}}
+        </select>
+      </div>
 
-  <label for="input-wizard_house">House: </label>
-  {{! <input type="number" name="input-wizard_house" id="input-wizard_house"> }}
-  <select name="input-wizard_house" id="input-wizard_house">
-    <option value="">Select a House</option>
-    {{#each Houses}}
-      <option value="{{this.house_id}}">{{this.house_name}}</option>
-    {{/each}}
-  </select>
+      <input type="submit" class="submit-button"/>
+    </form>
+  </div>
+</div>
 
-  <input type="submit" />
-</form>
+
 
 {{! Embed our javascript to handle the DOM manipulation and AJAX request }}
 <script src="./js/add_wizard.js"></script>
 
 
+<script>
+  let modal = document.getElementById("add-wizard-modal-container");
 
+  // Get the button that opens the modal
+  var openBtn = document.getElementById("add-wizard-btn");
+
+  // Get the <span> element that closes the modal
+  var closeBtn = document.getElementById("close-add-wizard-container")
+
+  // When the user clicks the button, open the modal 
+  openBtn.onclick = function() {
+    modal.style.display = "flex";
+    document.body.classList.add("no-scroll")
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  closeBtn.onclick = function() {
+    modal.style.display = "none";
+    document.body.classList.remove("no-scroll")
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+}
+</script>
