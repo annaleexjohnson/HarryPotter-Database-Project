@@ -7,14 +7,12 @@ DROP TABLE IF EXISTS Spells;
 DROP TABLE IF EXISTS Type_Of_Spells;
 DROP TABLE IF EXISTS Spell_Instances;
 
-
 -- Create table to store Hogwarts Wizard Houses
 CREATE OR REPLACE TABLE Houses (
     house_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     house_name VARCHAR(45) NOT NULL,
     house_founder VARCHAR(45) NOT NULL,
     CONSTRAINT UQ_house UNIQUE (house_id, house_name, house_founder)
-    ON DELETE SET NULL
 );
 
 
@@ -25,9 +23,8 @@ CREATE OR REPLACE TABLE Wizards (
     wizard_graduated TINYINT NOT NULL DEFAULT 0,
     wizard_house INT,
     FOREIGN KEY (wizard_house) REFERENCES Houses(house_id) -- add the wizard's Hogwart's house
-    ON DELETE CASCADE    
+    ON DELETE SET NULL 		-- if a house is deleted, set column to null  
 );
-
 
 -- Create table to store different classifications of spells
 CREATE OR REPLACE TABLE Types (
@@ -35,27 +32,31 @@ CREATE OR REPLACE TABLE Types (
     type_name VARCHAR(45) NOT NULL,
     type_description VARCHAR(255) DEFAULT "",
     CONSTRAINT UQ_type UNIQUE (type_id, type_name)  -- each type must be unique 
-    ON DELETE SET NULL
 );
 
 
 -- Create table to store spells and corresponding info
 CREATE OR REPLACE TABLE Spells (
-    spell_id INT(11) AUTO_INCREMENT UNIQUE PRIMARY KEY,
-    spell_name VARCHAR(45) UNIQUE NOT NULL ,
+    spell_id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    spell_name VARCHAR(45) NOT NULL,
     spell_description VARCHAR(255) DEFAULT "",
-    ON DELETE CASCADE
+    CONSTRAINT UQ_spell UNIQUE (spell_id, spell_name)  -- each spell must be unique 
 );
 
 
 -- Create intersection table to store spells and their type classification
 CREATE OR REPLACE TABLE Type_Of_Spells (
+	tos_id INT(11) AUTO_INCREMENT,
     spell_id INT(11) NOT NULL,
-    type_id INT(11),
-    PRIMARY KEY(spell_id, type_id),     -- PK is combo of spell_id and type_id, which are both unique in their respective table
-    FOREIGN KEY (spell_id) REFERENCES Spells(spell_id) ON DELETE CASCADE,   -- if spell is deleted, delete the record of its type as well
-    FOREIGN KEY (type_id) REFERENCES Types(type_id) ON DELETE CASCADE       -- if type is deleted, delete any spells that reference the type
+    type_id INT(11) DEFAULT NULL, 
+    
+    -- PK is combo of tos_id and spell_id
+    PRIMARY KEY(tos_id, spell_id),
+    
+    FOREIGN KEY(spell_id) REFERENCES Spells(spell_id) ON DELETE CASCADE,
+    FOREIGN KEY(type_id) REFERENCES Types(type_id)ON DELETE SET NULL
 );
+
 
 -- Create transaction table to store instances where a wizard used a spell
 CREATE OR REPLACE TABLE Spell_Instances (
@@ -140,20 +141,32 @@ INSERT INTO Type_Of_Spells (spell_id, type_id) VALUES
 
 
 -- Add sample data of records of wizards who used a spell
-INSERT INTO Spell_Instances (spell_id, wizard_id) VALUES
-((SELECT spell_id FROM Spells WHERE spell_id = 11), (SELECT wizard_id FROM Wizards WHERE wizard_id = 2)),
-((SELECT spell_id FROM Spells WHERE spell_id = 3), (SELECT wizard_id FROM Wizards WHERE wizard_id = 1)),
-((SELECT spell_id FROM Spells WHERE spell_id = 4), (SELECT wizard_id FROM Wizards WHERE wizard_id = 3)),
-((SELECT spell_id FROM Spells WHERE spell_id = 2), (SELECT wizard_id FROM Wizards WHERE wizard_id = 4)),
-((SELECT spell_id FROM Spells WHERE spell_id = 6), (SELECT wizard_id FROM Wizards WHERE wizard_id = 5));
-
+INSERT INTO Spell_Instances (spell_id, wizard_id, notes) VALUES
+(
+    (SELECT spell_id FROM Spells WHERE spell_id = 11), 
+    (SELECT wizard_id FROM Wizards WHERE wizard_id = 2), 
+    'used this spell in September 1927 on a library record column in the library of the French Ministry of Magic in an attempt to help him, Porpentina Goldstein, and Leta Lestrange to escape from a pack of angry Matagots set upon them'
+),
+(
+    (SELECT spell_id FROM Spells WHERE spell_id = 3), 
+    (SELECT wizard_id FROM Wizards WHERE wizard_id = 1),
+    'Used it in the maze during the Third Task of Triwizard Tournament'
+),
+(
+    (SELECT spell_id FROM Spells WHERE spell_id = 4), 
+    (SELECT wizard_id FROM Wizards WHERE wizard_id = 3),
+    'On 13 November 1994, Hermione Granger was hit by this hex from Draco Malfoy''s wand. Draco and Harry Potter had begun fighting in the corridor, which eventually led to a duel, but the spells they cast at each other missed and hit Hermione and Gregory Goyle instead'
+),
+(
+    (SELECT spell_id FROM Spells WHERE spell_id = 2), 
+    (SELECT wizard_id FROM Wizards WHERE wizard_id = 4),
+    'Used it to disarm both Harry Potter and Hermione Granger simultaneously in the Shrieking Shack.'
+),    
+(
+    (SELECT spell_id FROM Spells WHERE spell_id = 6), 
+    (SELECT wizard_id FROM Wizards WHERE wizard_id = 5),
+    'Tonks used this spell to fix Harry Potter''s broken nose.'
+);
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
-
--- SELECT * from Houses;
--- SELECT * from Wizards;
--- SELECT * from Types;
--- SELECT * from Spells;
--- SELECT * from Type_Of_Spells;
--- SELECT * from Spell_Instances;
