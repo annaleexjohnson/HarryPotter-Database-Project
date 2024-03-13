@@ -221,47 +221,6 @@ app.get("/spells", function (req, res) {
   });
 });
 
-// ADD SPELL TYPE TO TYPE_OF_SPELLS
-app.post("/post-spell-type-ajax/", function (req, res) {
-  let data = req.body;
-  let spellID = parseInt(data.spell_id);
-  let typeID = parseInt(data.spell_type);
-
-  // inserts into TOS
-  let insertTOS = `INSERT INTO Type_Of_Spells(spell_id, type_id) VALUES (${spellID}, ${typeID});`;
-
-  // add to TOS table
-  db.pool.query(insertTOS, function (error, rows, fields) {
-    // handle error
-    if (error) {
-      console.log(error);
-      res.status(400).send(error.code);
-    } else {
-      res.sendStatus(200);
-    }
-  });
-});
-
-// DELETE SPELL TYPE FROM TYPE_OF_SPELLS
-app.delete("/delete-spell-type-ajax/", function (req, res) {
-  let data = req.body;
-  let spellID = data.spell_id;
-  let typeID = data.type_id;
-
-  let deleteTOS = `DELETE FROM Type_Of_Spells WHERE spell_id = ${spellID} AND type_id = ${typeID};`;
-
-  // delete from TOS table
-  db.pool.query(deleteTOS, function (error, rows, fields) {
-    // handle error
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.sendStatus(204);
-    }
-  });
-});
-
 // ADD NEW SPELL TO SPELLS TABLE
 app.post("/add-spell-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
@@ -438,6 +397,47 @@ app.put("/put-spell-type-ajax", function (req, res) {
 
   // update TOS table
   db.pool.query(updateQuery, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
+// ADD SPELL TYPE TO A CURRENT SPELL
+app.post("/post-spell-type-ajax/", function (req, res) {
+  let data = req.body;
+  let spellID = parseInt(data.spell_id);
+  let typeID = parseInt(data.spell_type);
+
+  // inserts into TOS
+  let insertTOS = `INSERT INTO Type_Of_Spells(spell_id, type_id) VALUES (${spellID}, ${typeID});`;
+
+  // add to TOS table
+  db.pool.query(insertTOS, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.status(400).send(error.code);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
+// DELETE SPELL TYPE FROM A SPELL
+app.delete("/delete-spell-type-ajax/", function (req, res) {
+  let data = req.body;
+  let spellID = data.spell_id;
+  let typeID = data.type_id;
+
+  let deleteTOS = `DELETE FROM Type_Of_Spells WHERE spell_id = ${spellID} AND type_id = ${typeID};`;
+
+  // delete from TOS table
+  db.pool.query(deleteTOS, function (error, rows, fields) {
     // handle error
     if (error) {
       console.log(error);

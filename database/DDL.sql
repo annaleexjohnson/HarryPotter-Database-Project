@@ -54,7 +54,9 @@ CREATE OR REPLACE TABLE Type_Of_Spells (
     PRIMARY KEY(tos_id, spell_id),
     
     FOREIGN KEY(spell_id) REFERENCES Spells(spell_id) ON DELETE CASCADE,
-    FOREIGN KEY(type_id) REFERENCES Types(type_id)ON DELETE SET NULL
+    FOREIGN KEY(type_id) REFERENCES Types(type_id)ON DELETE SET NULL,
+
+    CONSTRAINT UQ_spell_type UNIQUE (spell_id, type_id)
 );
 
 
