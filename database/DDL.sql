@@ -14,6 +14,7 @@ CREATE OR REPLACE TABLE Houses (
     house_name VARCHAR(45) NOT NULL,
     house_founder VARCHAR(45) NOT NULL,
     CONSTRAINT UQ_house UNIQUE (house_id, house_name, house_founder)
+    ON DELETE SET NULL
 );
 
 
@@ -22,8 +23,9 @@ CREATE OR REPLACE TABLE Wizards (
     wizard_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     wizard_name VARCHAR(45) NOT NULL,
     wizard_graduated TINYINT NOT NULL DEFAULT 0,
-    wizard_house INT NOT NULL,
-    FOREIGN KEY (wizard_house) REFERENCES Houses(house_id) ON DELETE CASCADE    -- add the wizard's Hogwart's house
+    wizard_house INT,
+    FOREIGN KEY (wizard_house) REFERENCES Houses(house_id) -- add the wizard's Hogwart's house
+    ON DELETE CASCADE    
 );
 
 
@@ -33,6 +35,7 @@ CREATE OR REPLACE TABLE Types (
     type_name VARCHAR(45) NOT NULL,
     type_description VARCHAR(255) DEFAULT "",
     CONSTRAINT UQ_type UNIQUE (type_id, type_name)  -- each type must be unique 
+    ON DELETE SET NULL
 );
 
 
@@ -41,6 +44,7 @@ CREATE OR REPLACE TABLE Spells (
     spell_id INT(11) AUTO_INCREMENT UNIQUE PRIMARY KEY,
     spell_name VARCHAR(45) UNIQUE NOT NULL ,
     spell_description VARCHAR(255) DEFAULT "",
+    ON DELETE CASCADE
 );
 
 

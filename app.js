@@ -126,6 +126,7 @@ app.post("/add-wizard-ajax", function (req, res) {
 
   // Create the query and run it on the database
   query1 = `INSERT INTO Wizards (wizard_name, wizard_graduated, wizard_house) VALUES ('${data.wizard_name}', ${wizard_graduated}, ${wizard_house})`;
+
   db.pool.query(query1, function (error, rows, fields) {
     // Check to see if there was an error
     if (error) {
@@ -201,13 +202,13 @@ app.get("/spells", function (req, res) {
   FROM Type_Of_Spells TS 
   JOIN Types T on T.type_id = TS.type_id;`;
 
+  // get all rows from Spells
   db.pool.query(selectSpells, function (error, rows, fields) {
-    // Execute first query
     let Spells = rows;
-
+    // get all rows from Types
     db.pool.query(selectTypes, function (erorr, rows, fields) {
       let Types = rows;
-
+      // join Types and TOS tables
       db.pool.query(selectTOS, function (erorr, rows, fields) {
         let TOS = rows;
         return res.render("../views/spells.hbs", {
@@ -220,115 +221,16 @@ app.get("/spells", function (req, res) {
   });
 });
 
-// RENDER UPDATE SPELL PAGE
-app.get("/updateSpell/:spellID", function (req, res) {
-  let spellID = parseInt(req.params.spellID);
-
-  let selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
-  FROM Spells S
-  JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
-  JOIN Types T ON TS.type_id = T.type_id
-  WHERE TS.spell_id = ${spellID};`;
-
-  let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
-
-  let selectSpellType = `SELECT T.type_id as t_type_id, T.type_name as t_type_name,
-  TS.type_id as ts_type_id, TS.spell_id as ts_spell_id 
-  FROM Type_Of_Spells TS 
-  JOIN Types T on T.type_id = TS.type_id
-  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = ${spellID});`;
-
-  // select spell name and description
-  db.pool.query(selectSpell, function (err, rows, fields) {
-    let Spell = rows[0];
-
-    // select all types from type table
-    db.pool.query(selectTypes, function (err, rows, fields) {
-      let Types = rows;
-
-      // select spell types
-      db.pool.query(selectSpellType, function (err, rows, fields) {
-        return res.render("../views/updateSpell.hbs", {
-          spell: Spell,
-          types: Types,
-          spellType: rows,
-        });
-      });
-    });
-  });
-});
-
-// UPDATE SPELL NAME AND DESCRIPTION
-app.put("/put-spell-ajax", function (req, res) {
-  let data = req.body;
-  let spellID = parseInt(data.spell_id);
-  let spellName = data.spell_name;
-  let spellDesc = data.spell_desc;
-
-  // updates name and description in Spells table
-  let updateSpell = `UPDATE Spells SET 
-    spell_name = '${spellName}', 
-    spell_description = '${spellDesc}' 
-    WHERE spell_id = ${spellID}`;
-
-  // select current spell name & desc
-  let selectSpell = `SELECT spell_name, spell_description 
-  FROM Spells 
-  WHERE spell_id = ${spellID};`;
-
-  // update spells table
-  db.pool.query(updateSpell, function (error, rows, fields) {
-    // handle error
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      // select spell name and desc
-      db.pool.query(selectSpell, function (err, rows, fields) {
-        if (err) {
-          console.log(err);
-          res.sendStatus(400);
-        } else {
-          res.send(rows);
-        }
-      });
-    }
-  });
-});
-
-// UPDATE SPELL TYPE
-app.put("/put-spell-type-ajax", function (req, res) {
-  let data = req.body;
-  let spellID = data.spell_id;
-  let initTypeID = data.init_type_id;
-  let newTypeID = parseInt(data.new_type_id);
-
-  let updateQuery = `UPDATE Type_Of_Spells SET 
-	  type_id = ${newTypeID}
-    WHERE spell_id = ${spellID} AND type_id = ${initTypeID};`;
-
-  // update TOS table
-  db.pool.query(updateQuery, function (error, rows, fields) {
-    // handle error
-    if (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } else {
-      res.sendStatus(204);
-    }
-  });
-});
-
-// ADD SPELL TYPE
+// ADD SPELL TYPE TO TYPE_OF_SPELLS
 app.post("/post-spell-type-ajax/", function (req, res) {
   let data = req.body;
   let spellID = parseInt(data.spell_id);
   let typeID = parseInt(data.spell_type);
 
-  // deleting from spells will delete on cascade
+  // inserts into TOS
   let insertTOS = `INSERT INTO Type_Of_Spells(spell_id, type_id) VALUES (${spellID}, ${typeID});`;
 
-  // add to spells table
+  // add to TOS table
   db.pool.query(insertTOS, function (error, rows, fields) {
     // handle error
     if (error) {
@@ -340,16 +242,15 @@ app.post("/post-spell-type-ajax/", function (req, res) {
   });
 });
 
-// DELETE SPELL TYPE
+// DELETE SPELL TYPE FROM TYPE_OF_SPELLS
 app.delete("/delete-spell-type-ajax/", function (req, res) {
   let data = req.body;
   let spellID = data.spell_id;
   let typeID = data.type_id;
 
-  // deleting from spells will delete on cascade
-  let deleteTOS = `DELETE FROM Type_Of_Spells WHERE spell_id = ${spellID} AND type_id = ${typeID}`;
+  let deleteTOS = `DELETE FROM Type_Of_Spells WHERE spell_id = ${spellID} AND type_id = ${typeID};`;
 
-  // delete from spells table
+  // delete from TOS table
   db.pool.query(deleteTOS, function (error, rows, fields) {
     // handle error
     if (error) {
@@ -361,7 +262,7 @@ app.delete("/delete-spell-type-ajax/", function (req, res) {
   });
 });
 
-// ADD NEW SPELL
+// ADD NEW SPELL TO SPELLS TABLE
 app.post("/add-spell-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
   let data = req.body;
@@ -444,6 +345,105 @@ app.delete("/delete-spell-ajax/", function (req, res) {
           res.sendStatus(204);
         }
       });
+    }
+  });
+});
+
+// RENDER UPDATE SPELL PAGE
+app.get("/updateSpell/:spellID", function (req, res) {
+  let spellID = parseInt(req.params.spellID);
+
+  let selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
+  FROM Spells S
+  JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
+  JOIN Types T ON TS.type_id = T.type_id
+  WHERE TS.spell_id = ${spellID};`;
+
+  let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
+
+  let selectSpellType = `SELECT T.type_id as t_type_id, T.type_name as t_type_name,
+  TS.type_id as ts_type_id, TS.spell_id as ts_spell_id 
+  FROM Type_Of_Spells TS 
+  JOIN Types T on T.type_id = TS.type_id
+  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = ${spellID});`;
+
+  // select spell name and description
+  db.pool.query(selectSpell, function (err, rows, fields) {
+    let Spell = rows[0];
+
+    // select all types from type table
+    db.pool.query(selectTypes, function (err, rows, fields) {
+      let Types = rows;
+
+      // select spell types
+      db.pool.query(selectSpellType, function (err, rows, fields) {
+        return res.render("../views/updateSpell.hbs", {
+          spell: Spell,
+          types: Types,
+          spellType: rows,
+        });
+      });
+    });
+  });
+});
+
+// UPDATE SPELL NAME AND DESCRIPTION IN SPELLS TABLE
+app.put("/put-spell-ajax", function (req, res) {
+  let data = req.body;
+  let spellID = parseInt(data.spell_id);
+  let spellName = data.spell_name;
+  let spellDesc = data.spell_desc;
+
+  // updates name and description in Spells table
+  let updateSpell = `UPDATE Spells SET 
+    spell_name = '${spellName}', 
+    spell_description = '${spellDesc}' 
+    WHERE spell_id = ${spellID}`;
+
+  // select current spell name & desc
+  let selectSpell = `SELECT spell_name, spell_description 
+  FROM Spells 
+  WHERE spell_id = ${spellID};`;
+
+  // update spells table
+  db.pool.query(updateSpell, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      // select spell name and desc
+      db.pool.query(selectSpell, function (err, rows, fields) {
+        if (err) {
+          console.log(err);
+          res.sendStatus(400);
+        } else {
+          res.send(rows);
+        }
+      });
+    }
+  });
+});
+
+// UPDATE SPELL TYPE IN TYPE_OF SPELLS
+app.put("/put-spell-type-ajax", function (req, res) {
+  let data = req.body;
+  let spellID = data.spell_id;
+  let initTypeID = data.init_type_id;
+  let newTypeID = parseInt(data.new_type_id);
+
+  let updateQuery = `UPDATE Type_Of_Spells SET 
+	  type_id = ${newTypeID}
+    WHERE spell_id = ${spellID} AND type_id = ${initTypeID};`;
+
+  // update TOS table
+  db.pool.query(updateQuery, function (error, rows, fields) {
+    // handle error
+    if (error) {
+      console.log(error);
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(204);
     }
   });
 });
@@ -532,7 +532,7 @@ app.delete("/delete-instance-ajax/", function (req, res) {
   });
 });
 
-// RENDER UPDATE SPELL PAGE
+// RENDER UPDATE SPELL INSTANCES PAGE
 app.get("/updateInstance/:instanceID", function (req, res) {
   let instanceID = parseInt(req.params.instanceID);
   // select instance based on id
@@ -599,23 +599,24 @@ HOUSES PAGE
 app.get("/houses", function (req, res) {
   let query1 = "SELECT * FROM Houses;"; // Define our query
 
+  // Execute the query
   db.pool.query(query1, function (error, rows, fields) {
-    // Execute the query
-
-    res.render("../views/houses.hbs", { data: rows }); // Render the index.hbs file, and also send the renderer
-  }); // an object where 'data' is equal to the 'rows' we
+    // render houses page
+    res.render("../views/houses.hbs", { data: rows });
+  });
 });
 
+// add new house
 app.post("/add-house-ajax", function (req, res) {
   // Capture the incoming data and parse it back to a JS object
   let data = req.body;
 
   // Create the query and run it on the database
   query1 = `INSERT INTO Houses (house_name, house_founder) VALUES ('${data.house_name}', '${data.house_founder}')`;
+
   db.pool.query(query1, function (error, rows, fields) {
     // Check to see if there was an error
     if (error) {
-      // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
       console.log(error);
       res.sendStatus(400);
     } else {
@@ -624,6 +625,7 @@ app.post("/add-house-ajax", function (req, res) {
   });
 });
 
+// delete house
 app.delete("/delete-house-ajax", function (req, res) {
   let data = req.body;
   let houseID = data.house_id;
@@ -649,12 +651,12 @@ app.delete("/delete-house-ajax", function (req, res) {
 // GET ALL types
 app.get("/types", function (req, res) {
   let query1 = "SELECT * FROM Types;"; // Define our query
-
+  
+  // Execute the query
   db.pool.query(query1, function (error, rows, fields) {
-    // Execute the query
-
-    res.render("../views/types.hbs", { data: rows }); // Render the index.hbs file, and also send the renderer
-  }); // an object where 'data' is equal to the 'rows' we
+    // render types page
+    res.render("../views/types.hbs", { data: rows }); /
+  }); 
 });
 
 app.post("/add-type-ajax", function (req, res) {
