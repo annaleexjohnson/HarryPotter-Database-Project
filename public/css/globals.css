@@ -119,6 +119,30 @@ nav > ul > li {
   color: var(--gryffindor-yellow);
 }
 
+.return-button-container button {
+  padding: 2%;
+  background-color: var(--hufflepuff-canary);
+  border: var(--ravenclaw-gold) 0.4rem solid;
+  color: var(--muted-navy);
+
+  width: 15rem;
+  height: 3rem;
+  margin-bottom: 2rem;
+
+  font-size: 2rem;
+  font-family: HarryP;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.return-button-container button:hover {
+  color: aliceblue;
+}
+
 /* FORM STYLING */
 input,
 select,
