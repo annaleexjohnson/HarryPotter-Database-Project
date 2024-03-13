@@ -30,7 +30,13 @@
       <tr>
         <td>{{this.wizard_id}}</td>
         <td>{{this.wizard_name}}</td>
-        <td>{{this.house_name}}</td>
+        <td>
+          {{#if (eq this.house_name null)}}
+            Unknown House
+          {{else}}
+            {{this.house_name}}
+          {{/if}}
+        </td>
         {{#if (eq this.wizard_graduated 1)}}
           <td>Yes</td>
           {{else}}

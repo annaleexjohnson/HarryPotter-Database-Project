@@ -21,7 +21,7 @@ CREATE OR REPLACE TABLE Wizards (
     wizard_id INT(11) AUTO_INCREMENT PRIMARY KEY,
     wizard_name VARCHAR(45) NOT NULL,
     wizard_graduated TINYINT NOT NULL DEFAULT 0,
-    wizard_house INT,
+    wizard_house INT DEFAULT NULL,
     FOREIGN KEY (wizard_house) REFERENCES Houses(house_id) -- add the wizard's Hogwart's house
     ON DELETE SET NULL 		-- if a house is deleted, set column to null  
 );

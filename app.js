@@ -51,10 +51,10 @@ app.get("/", function (req, res) {
 //DISPLAY ALL WIZARD ROWS
 app.get("/wizards", function (req, res) {
   let selectWizards = `SELECT W.wizard_id, W.wizard_name, W.wizard_graduated, H.house_name
-	  FROM Wizards W
-    JOIN Houses H ON W.wizard_house = H.house_id
-  	GROUP BY W.wizard_name
-    ORDER BY W.wizard_id;`;
+      FROM Wizards W
+      LEFT JOIN Houses H ON W.wizard_house = H.house_id
+      GROUP BY W.wizard_name
+      ORDER BY W.wizard_id;`;
 
   let selectHouses = "SELECT * FROM Houses;";
 
@@ -651,12 +651,12 @@ app.delete("/delete-house-ajax", function (req, res) {
 // GET ALL types
 app.get("/types", function (req, res) {
   let query1 = "SELECT * FROM Types;"; // Define our query
-  
+
   // Execute the query
   db.pool.query(query1, function (error, rows, fields) {
     // render types page
-    res.render("../views/types.hbs", { data: rows }); /
-  }); 
+    res.render("../views/types.hbs", { data: rows });
+  });
 });
 
 app.post("/add-type-ajax", function (req, res) {

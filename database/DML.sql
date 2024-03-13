@@ -12,9 +12,9 @@
 -- display all wizard's ids, names, graduation status, and the names of their Hogwarts house
 SELECT W.wizard_id, W.wizard_name, W.wizard_graduated, H.house_name
 	FROM Wizards W
-    JOIN Houses H ON W.wizard_house = H.house_id
-  	GROUP BY W.wizard_name
-    ORDER BY W.wizard_id;
+  LEFT JOIN Houses H ON W.wizard_house = H.house_id
+  GROUP BY W.wizard_name
+  ORDER BY W.wizard_id;
 
 -- create a new wizard
 INSERT INTO Wizards (wizard_name, wizard_graduated, wizard_house) 
