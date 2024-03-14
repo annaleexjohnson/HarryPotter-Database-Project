@@ -211,10 +211,12 @@ app.get("/spells", function (req, res) {
       // join Types and TOS tables
       db.pool.query(selectTOS, function (erorr, rows, fields) {
         let TOS = rows;
+
         return res.render("../views/spells.hbs", {
           data: Spells,
           types: Types,
           tos: TOS,
+          encodedSpell: encodeURIComponent(JSON.stringify(Spells)),
         });
       });
     });

@@ -28,16 +28,21 @@
         <td>{{spell.spell_id}}</td>
         <td>{{spell.spell_name}}</td>
         <td class="spell-desc">{{spell.spell_description}}</td>
-
+        
+        {{!-- Spell Type(s) --}}
         <td>
-            <ul>
+            <ul id="types-list-{{spell.spell_id}}">
+                {{!-- iterates through TOS table to find match with spell id --}}
                 {{#each ../tos as |tos|}}
-                    {{#if (eq tos.ts_spell_id spell.spell_id)}}
-                        <li class="spell-type">
-                            {{tos.t_type_name}}
-                        </li>
-                    {{/if}}
+                    
+                      {{#if (eq tos.ts_spell_id spell.spell_id)}}
+                        {{!--  display types(s) --}}
+                          <li class="spell-type">
+                              {{tos.t_type_name}}
+                          </li>
+                      {{/if}}
                 {{/each}}
+
             </ul>
         </td>
         
@@ -97,6 +102,7 @@
 
 {{! Embed our javascript to handle the DOM manipulation and AJAX request }}
 <script src="./js/add_spell.js"></script>
+{{!-- handles open and close modal --}}
 <script>
   let modal = document.getElementById("add-spell-modal-container");
 
@@ -124,4 +130,25 @@
       modal.style.display = "none";
     }
 }
+</script>
+{{!-- handles multiple spell types --}}
+<script>
+
+  let decodedSpells = decodeURIComponent("{{{encodedSpell}}}");
+  let spellsArr = JSON.parse(decodedSpells);
+
+  spellsArr.forEach(function(spell){
+    let typesList = document.getElementById(`types-list-${spell.spell_id}`)
+
+     if (typesList.innerHTML.trim() == ""){
+      let listItem = document.createElement("LI")
+      listItem.classList.add("spell-type")
+      let unknownType = document.createTextNode("Type Unknown")
+      listItem.appendChild(unknownType)
+
+      typesList.appendChild(listItem)
+    }
+   
+  })
+ 
 </script>
