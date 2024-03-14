@@ -12,8 +12,8 @@ npm i dotenv express express-handlebars mysql
 ```
 
 Please add the following variables to your .env file as it pertains to you:
-PORT = *****
-DB_HOST = *****
-DB_USER = *****
-DB_PASS = *****
-DB_NAME = *****
+- PORT = *****
+- DB_HOST = *****
+- DB_USER = *****
+- DB_PASS = *****
+- DB_NAME = *****
