@@ -99,16 +99,17 @@ DELETE FROM Type_Of_Spells WHERE spell_id = :spell_id AND type_id = :type_id;
 -- displays spell name & description based on spell id
 SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
   FROM Spells S
-  JOIN Type_Of_Spells TS ON S.spell_id = :spell_id_input
-  JOIN Types T ON TS.type_id = T.type_id
-  WHERE TS.spell_id = :spell_id_input
+  LEFT JOIN Type_Of_Spells TS ON S.spell_id = :spell_id_input
+  LEFT JOIN Types T ON TS.type_id = T.type_id
+  WHERE TS.spell_id = :spell_id_input;
 
 -- displays spell types(s) from TOS based on spell id
 SELECT T.type_id as t_type_id, T.type_name as t_type_name,
   TS.type_id as ts_type_id, TS.spell_id as ts_spell_id 
   FROM Type_Of_Spells TS 
-  JOIN Types T on T.type_id = TS.type_id
-  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = :spell_id_input);
+  LEFT JOIN Types T on T.type_id = TS.type_id
+  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = :spell_id_input)
+  ORDER BY TS.type_id DESC;
 
 -- gets Types for dynamic dropdown
 SELECT type_id, type_name, type_description FROM Types;
