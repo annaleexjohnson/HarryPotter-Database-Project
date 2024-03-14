@@ -22,6 +22,16 @@ updateInstanceForm.addEventListener("submit", function (e) {
   let spellNameValue = spellName.value;
   let notesValue = notes.value;
 
+  // if wizard name/spell is empty, use initial values
+  if (wizardNameValue === "") {
+    let initWizard = document.getElementById("initial-wizard");
+    wizardNameValue = initWizard.value;
+  }
+  if (spellNameValue === "") {
+    let initSpell = document.getElementById("initial-spell");
+    spellNameValue = initSpell.value;
+  }
+
   // sanitize notes
   const sanitizeNotes = notesValue[0].toUpperCase() + notesValue.substring(1);
   notesValue = sanitizeNotes;
@@ -56,11 +66,6 @@ updateInstanceForm.addEventListener("submit", function (e) {
       } else {
         window.alert("There was an error adding the spell instance.");
       }
-
-      // reset form values
-      wizardName.value = "";
-      spellName.value = "";
-      notes.value = "";
     }
   };
 

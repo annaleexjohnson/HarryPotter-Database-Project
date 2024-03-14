@@ -37,11 +37,13 @@
             list="update-wizards-option-datalist"
             name="update-wizards-option"
             type="text"
-            placeholder="{{instance.wizard_name}}">
+            value="{{instance.wizard_name}}">
+
             <datalist id="update-wizards-option-datalist">
-                <option value=""></option>
                 {{#each wizards}}
-                    <option value="{{this.wizard_name}}"></option>
+                    {{#each spells}}
+                        <option value="{{this.wizard_name}}"></option>
+                    {{/each}}
                 {{/each}}
             </datalist>
         </div>
@@ -53,7 +55,8 @@
             list="update-spells-option-datalist"
             name="update-spells-option" 
             type="text"
-            placeholder="{{instance.spell_name}}">
+            value="{{instance.spell_name}}"
+            >
 
             <datalist id="update-spells-option-datalist">
                 <option value=""></option>
@@ -65,7 +68,7 @@
         <div class="form-input-group">
             {{!-- Add Notes --}}
             <label for="input-instance-notes">Notes:</label>
-            <input type="text" name="input-instance-notes" id="input-instance-notes" placeholder="Note: {{instance.notes}}"/>
+            <input type="text" name="input-instance-notes" id="input-instance-notes" value="{{instance.notes}}"/>
         </div>
 
         <input type="Submit" class="update-button"/>
