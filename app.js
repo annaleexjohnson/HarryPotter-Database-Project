@@ -316,8 +316,8 @@ app.get("/updateSpell/:spellID", function (req, res) {
 
   let selectSpell = `SELECT S.spell_id, S.spell_name, S.spell_description, T.type_name
   FROM Spells S
-  JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
-  JOIN Types T ON TS.type_id = T.type_id
+  LEFT JOIN Type_Of_Spells TS ON S.spell_id = ${spellID}
+  LEFT JOIN Types T ON TS.type_id = T.type_id
   WHERE TS.spell_id = ${spellID};`;
 
   let selectTypes = `SELECT type_id, type_name, type_description FROM Types;`;
@@ -325,8 +325,9 @@ app.get("/updateSpell/:spellID", function (req, res) {
   let selectSpellType = `SELECT T.type_id as t_type_id, T.type_name as t_type_name,
   TS.type_id as ts_type_id, TS.spell_id as ts_spell_id 
   FROM Type_Of_Spells TS 
-  JOIN Types T on T.type_id = TS.type_id
-  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = ${spellID});`;
+  LEFT JOIN Types T on T.type_id = TS.type_id
+  WHERE TS.spell_id = (SELECT spell_id from Spells WHERE spell_id = ${spellID})
+  ORDER BY TS.type_id DESC;`;
 
   // select spell name and description
   db.pool.query(selectSpell, function (err, rows, fields) {

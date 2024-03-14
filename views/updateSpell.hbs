@@ -27,11 +27,19 @@
         <td>{{spell.spell_description}}</td>
         <td>
             <ul>
-                {{#each spellType as |tos|}}
-                    <li class="spell-type">
-                        {{tos.t_type_name}}
+                {{!-- Set tTD to unknown if first row is NULL --}}
+                {{#if (eq spellType.[0].t_type_name null)}}
+                    <li class="spell-type unknown">
+                        Type Unknown
                     </li>
-                {{/each}}
+                {{else}}
+                    {{!-- otherwise, iterate through each spell type --}}
+                    {{#each spellType as |tos|}}
+                        <li class="spell-type">
+                            {{tos.t_type_name}}
+                        </li>
+                    {{/each}}
+                {{/if}}
             </ul>
         </td>    
     </tr>
@@ -68,7 +76,7 @@
         {{!-- for each type create form to update type --}}
         {{#each spellType as |spell|}}
             {{!-- render empty div if there's a null type --}}
-            {{#if (eq this.t_type_name NULL)}}
+            {{#if (eq this.t_type_name null)}}
                 <div></div>
             {{else}}
             <p><strong>Current Type:</strong> {{this.t_type_name}}</p>
