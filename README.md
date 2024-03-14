@@ -1,6 +1,8 @@
 # CS340 Group 78 Final Project
 This project connects an SQL database to a frontend interface using Node.js and Handlebars.
 
+Use this link to interact with the website on the OSU servers: http://flip1.engr.oregonstate.edu:45013/
+
 ## To clone this project and view on your local server:
 
 First, use npm to install the following packages:
