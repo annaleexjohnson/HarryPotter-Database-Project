@@ -508,7 +508,7 @@ app.post("/add-instance-ajax", function (req, res) {
   db.pool.query(addInstance, function (err, rows) {
     if (err) {
       console.log(err);
-      res.sendStatus(400);
+      res.status(400).send(err.code);
     } else {
       res.sendStatus(200);
     }
@@ -520,7 +520,7 @@ app.delete("/delete-instance-ajax/", function (req, res) {
   let data = req.body;
   let instanceID = data.instance_id;
 
-  // deleting from spells will delete on cascade
+  // deleting from spells/wizards will delete on cascade
   let deleteInstance = `DELETE FROM Spell_Instances WHERE instance_id = ${instanceID};`;
 
   // delete from spells table
@@ -585,7 +585,7 @@ app.put("/put-instance-ajax", function (req, res) {
   db.pool.query(updateInstance, function (err, rows) {
     if (err) {
       console.log(err);
-      res.sendStatus(400);
+      res.status(400).send(err.code);
     } else {
       res.sendStatus(200);
     }

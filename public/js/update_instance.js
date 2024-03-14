@@ -44,8 +44,23 @@ updateInstanceForm.addEventListener("submit", function (e) {
     if (xhttp.readyState == 4 && xhttp.status == 200) {
       window.location.href = `/instances`;
       window.alert("Updated instance!");
+
+      // reset form values
+      wizardName.value = "";
+      spellName.value = "";
+      notes.value = "";
     } else if (xhttp.readyState == 4 && xhttp.status != 200) {
-      console.log("There was an error with the update.");
+      // null error alert
+      if ((xhttp.response = "ER_BAD_NULL_ERROR")) {
+        window.alert("Please add a valid wizard/spell from the database.");
+      } else {
+        window.alert("There was an error adding the spell instance.");
+      }
+
+      // reset form values
+      wizardName.value = "";
+      spellName.value = "";
+      notes.value = "";
     }
   };
 
