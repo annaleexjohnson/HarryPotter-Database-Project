@@ -22,6 +22,16 @@ addWizardForm.addEventListener("submit", function (e) {
   let wizardGraduatedValue = inputWizardGraduated.value;
   let wizardHouseValue = inputWizardHouse.value;
 
+  // handle null values
+  if (wizardNameValue === "") {
+    window.alert("Please enter a name for the wizard.");
+  }
+
+  if (wizardHouseValue === "") {
+    window.alert("Please select a house for the wizard.");
+  }
+
+  // sanitize inputs
   const sanitizeName = wizardNameValue.split(" ");
 
   for (let i = 0; i < sanitizeName.length; i++) {

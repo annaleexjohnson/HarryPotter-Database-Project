@@ -16,6 +16,7 @@ function deleteWizard(wizardID) {
       window.alert("Deleted wizard!");
     } else if (xhttp.readyState == 4 && xhttp.status != 204) {
       console.log("There was an error with the input.");
+      window.alert("There was an error deleting this wizard.");
     }
   };
   // Send the request and wait for the response
