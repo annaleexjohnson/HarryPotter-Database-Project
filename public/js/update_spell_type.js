@@ -14,6 +14,11 @@ function updateSpellType(spellID, initTypeID) {
   let newSpellType =
     spellTypeForm.getElementsByClassName("update-spell-type")[0].value;
 
+  // handle null value
+  if (newSpellType === "") {
+    newSpellType = null;
+  }
+
   let data = {
     spell_id: spellID,
     init_type_id: initTypeID,

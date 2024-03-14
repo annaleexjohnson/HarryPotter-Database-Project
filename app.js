@@ -395,6 +395,10 @@ app.put("/put-spell-type-ajax", function (req, res) {
   let initTypeID = data.init_type_id;
   let newTypeID = parseInt(data.new_type_id);
 
+  if (isNaN(newTypeID)) {
+    newTypeID = null;
+  }
+
   let updateQuery = `UPDATE Type_Of_Spells SET 
 	  type_id = ${newTypeID}
     WHERE spell_id = ${spellID} AND type_id = ${initTypeID};`;

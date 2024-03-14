@@ -86,6 +86,7 @@
             onsubmit="updateSpellType({{this.ts_spell_id}}, {{this.ts_type_id}})">
                 <div class="form-input-group">
                     <select class="update-spell-type" >
+                        <option value="">--</option>
                         {{#each ../types as |type|}}
                             {{#if (eq type.type_id spell.ts_type_id)}}
                             <option class="initial-spell-type" value="{{type.type_id}}" selected>{{type.type_name}}</option>
