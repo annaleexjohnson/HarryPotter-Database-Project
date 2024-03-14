@@ -5,7 +5,7 @@
 </div>
 
 <h1>Update Wizard</h1>
-<p>Use the form below to update any information regarding {{wizard.wizard_name}}.</p>
+
 {{!-- Display current wizard --}}
 <table>
     {{!-- table header --}}
@@ -32,34 +32,39 @@
     </tbody>
 </table>
 
-<h2>Update Wizard Form</h2>
-<form id="update-wizard-form-ajax">
-    {{!-- update wizard name --}}
-    <label for="update-wizard-name">Full name: </label>
-    <input type="text" name="update-wizard-name" id="update-wizard-name" placeholder="{{wizard.wizard_name}}"/>
-    {{!-- update wizard house --}}
-    <label for="update-wizard-house">Wizard's House: </label>
-    <select name="update-wizard-house" id="update-wizard-house">
-        {{#each houses as |house|}}
-            {{#if (eq house.house_id ../wizard.house_id)}}
-                <option value="{{this.house_id}}" selected>{{this.house_name}}</option>
+<div class="update-container">
+    <h2>Update Wizard Form</h2>
+    <form id="update-wizard-form-ajax" class="update-form">
+        {{!-- update wizard name --}}
+        <label for="update-wizard-name">Full name: </label>
+        <input type="text" name="update-wizard-name" id="update-wizard-name" placeholder="{{wizard.wizard_name}}"/>
+        {{!-- update wizard house --}}
+        <label for="update-wizard-house">Wizard's House: </label>
+        <select name="update-wizard-house" id="update-wizard-house">
+            {{#each houses as |house|}}
+                {{#if (eq house.house_id ../wizard.house_id)}}
+                    <option value="{{this.house_id}}" selected>{{this.house_name}}</option>
+                {{else}}
+                    <option value="{{this.house_id}}">{{this.house_name}}</option>
+                {{/if}}
+            {{/each}}
+        </select>
+        {{!-- update wizard graduated --}}
+        <label for="update-wizard-graduated">Graduated? </label>
+        <select name="update-wizard-graduated" id="update-wizard-graduated" >
+            {{#if (eq wizard.wizard_graduated 1)}}
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
             {{else}}
-                <option value="{{this.house_id}}">{{this.house_name}}</option>
-            {{/if}}
-        {{/each}}
-    </select>
-    {{!-- update wizard graduated --}}
-    <label for="update-wizard-graduated">Graduated? </label>
-    <select name="update-wizard-graduated" id="update-wizard-graduated" >
-        {{#if (eq wizard.wizard_graduated 1)}}
-            <option value="1" selected>Yes</option>
-            <option value="0">No</option>
-        {{else}}
-            <option value="1">Yes</option>
-            <option value="0" selected>No</option>
-        {{/if}}    
-    </select>
-    <input type="submit">
-</form>
+                <option value="1">Yes</option>
+                <option value="0" selected>No</option>
+            {{/if}}    
+        </select>
+        <input type="submit" class="update-button">
+    </form>
+
+</div>
+
+
 
 <script src="/js/update_wizard.js"></script>

@@ -419,7 +419,7 @@ th {
 }
 
 /* INSTANCES PAGE */
-.update-instance-container {
+.update-container {
   display: flex;
   flex-direction: column;
   gap: 2vw;
@@ -451,7 +451,7 @@ th {
 /* medium */
 @media only screen and (min-width: 768px) {
   .add-container,
-  .update-instance-container {
+  .update-container {
     max-width: 50vw;
   }
 }
@@ -498,7 +498,7 @@ th {
   }
 
   .add-container,
-  .update-instance-container {
+  .update-container {
     max-width: 35vw;
   }
 }
