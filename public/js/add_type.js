@@ -14,6 +14,12 @@ addTypeForm.addEventListener("submit", function (e) {
   let typeNameValue = inputTypeName.value;
   let typeDescValue = inputTypeDesc.value;
 
+  // handle null input
+  if (typeNameValue === "") {
+    window.alert("Please enter a name for the spell type.");
+    return;
+  }
+
   // sanitize type nae
   const sanitizeName = typeNameValue.split(" ");
   for (let i = 0; i < sanitizeName.length; i++) {
