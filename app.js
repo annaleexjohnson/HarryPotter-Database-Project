@@ -621,7 +621,7 @@ app.post("/add-house-ajax", function (req, res) {
     // Check to see if there was an error
     if (error) {
       console.log(error);
-      res.sendStatus(400);
+      res.status(400).send(error.code);
     } else {
       return res.sendStatus(200);
     }

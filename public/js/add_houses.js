@@ -14,6 +14,12 @@ addPersonForm.addEventListener("submit", function (e) {
   let houseNameValue = inputHouseName.value;
   let houseFounderValue = inputHouseFounder.value;
 
+  // handles empty values
+  if (houseNameValue === "" || houseFounderValue === "") {
+    window.alert("Please enter a valid house name and founder.");
+    return;
+  }
+
   // sanitize house name values
   const sanitizeHouse = houseNameValue.split(" ");
   for (let i = 0; i < sanitizeHouse.length; i++) {
@@ -53,6 +59,11 @@ addPersonForm.addEventListener("submit", function (e) {
       inputHouseFounder.value = "";
     } else if (xhttp.readyState == 4 && xhttp.status != 200) {
       console.log("There was an error with the input.");
+
+      window.alert("There was an error adding house.");
+      // Clear the input fields for another transaction
+      inputHouseName.value = "";
+      inputHouseFounder.value = "";
     }
   };
 
