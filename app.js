@@ -1,4 +1,5 @@
 // App.js
+require("dotenv").config();
 
 /*
     SETUP
@@ -8,7 +9,7 @@ var app = express(); // We need to instantiate an express object to interact wit
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
-PORT = 45013; // Set a port number at the top so it's easy to change in the future
+PORT = process.env.PORT; // Set a port number at the top so it's easy to change in the future
 
 // app.js
 
