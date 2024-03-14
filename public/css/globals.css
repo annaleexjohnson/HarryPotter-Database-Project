@@ -431,6 +431,12 @@ th {
   margin: 5vw 0;
 }
 
+.instance-notes {
+  padding: 2vw;
+  text-align: left;
+  max-width: 30vw;
+}
+
 /* ------ Media Queries ------ */
 /* (based on Bootstrap Breakpoints) */
 
